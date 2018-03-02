@@ -4,7 +4,7 @@ import random
 
 def guessnumber():
     # To gererate the random number from 1 to 20
-    randomNumber = random.randrange(0, 20)
+    randomNumber = random.randrange(1, 20)
 
     guessedByUser = False
     userNr = int(input("Please, try to guess the number: "))
