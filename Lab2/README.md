@@ -23,7 +23,7 @@ The total number of the words of the book after removing Stop Words is: 11220`
 
 The output for Task 2.1 is shown in the following  printscreen:
 
-![alt text]( CLOUD-COMPUTING-CLASS-2018/Lab2/Lab2.1_Output.png)
+![alt text](CLOUD-COMPUTING-CLASS-2018/Lab2/Lab2.1_Output.png)
 
 
 
