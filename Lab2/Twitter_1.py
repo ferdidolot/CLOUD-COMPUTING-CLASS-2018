@@ -1,6 +1,6 @@
 import tweepy
 import json
-import ConfigParser 
+import configparser 
 	
 from tweepy import OAuthHandler
 
@@ -17,9 +17,9 @@ def ConfigSectionMap(section):
             dict1[option] = None
     return dict1
 
-Config = ConfigParser.ConfigParser()
+Config = configparser.ConfigParser()
 Config.read("configuration.ini")
-print Config.sections()
+#print Config.sections()
 
 consumer_key = ConfigSectionMap("TwitterAPI")['consumerkey']
 consumer_secret = ConfigSectionMap("TwitterAPI")['consumersecret']
