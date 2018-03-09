@@ -1,10 +1,30 @@
 import tweepy
+import json
+import ConfigParser 
+	
 from tweepy import OAuthHandler
- 
-consumer_key = '9bzcmNQRJD7XJ2GGJLff0lQPn'
-consumer_secret = '0fnkzhgTIKO9J8Rv1ACh0xlfzexiWwAtJkZuqi63Bps8HpcUdc'
-access_token = '238985389-gmnDbJER33buDhPq6cMmOlSbU5kCLnQUO4FkWUBO'
-access_secret = 'EDGAt0k3WrxqG9dfLKTAlqRmAZtxK95OEPn3Ud2zSr7oQ'
+
+def ConfigSectionMap(section):
+    dict1 = {}
+    options = Config.options(section)
+    for option in options:
+        try:
+            dict1[option] = Config.get(section, option)
+            if dict1[option] == -1:
+                DebugPrint("skip: %s" % option)
+        except:
+            print("exception on %s!" % option)
+            dict1[option] = None
+    return dict1
+
+Config = ConfigParser.ConfigParser()
+Config.read("configuration.ini")
+print Config.sections()
+
+consumer_key = ConfigSectionMap("TwitterAPI")['consumerkey']
+consumer_secret = ConfigSectionMap("TwitterAPI")['consumersecret']
+access_token = ConfigSectionMap("TwitterAPI")['accesstoken']
+access_secret = ConfigSectionMap("TwitterAPI")['accesstokensecret']
 
 auth = OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_secret)
@@ -18,3 +38,5 @@ print('Location: ' + user.location)
 print('Friends: ' + str(user.followers_count))
 print('Created: ' + str(user.created_at))
 print('Description: ' + str(user.description))
+
+
