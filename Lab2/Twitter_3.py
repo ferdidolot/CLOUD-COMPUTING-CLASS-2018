@@ -19,27 +19,6 @@ def ConfigSectionMap(section):
             dict1[option] = None
     return dict1
 
-Config = configparser.ConfigParser()
-Config.read("configuration.ini")
-#print Config.sections()
-
-consumer_key = ConfigSectionMap("TwitterAPI")['consumerkey']
-consumer_secret = ConfigSectionMap("TwitterAPI")['consumersecret']
-access_token = ConfigSectionMap("TwitterAPI")['accesstoken']
-access_secret = ConfigSectionMap("TwitterAPI")['accesstokensecret']
-
-auth = OAuthHandler(consumer_key, consumer_secret)
-auth.set_access_token(access_token, access_secret)
-  
-api = tweepy.API(auth)
-
-user = api.me()
- 
-tweet = 'RT @JordiTorresBCN: just an example! :D http://JordiTorres.Barcelona #masterMEI'
-print ("Tweer preprocessing:")
-print(word_tokenize(tweet))
-
-
 #Capturing emotions, hashtag, URLs
 
 emoticons_str = r"""
@@ -65,7 +44,6 @@ regex_str = [
 tokens_re = re.compile(r'(' + '|'.join(regex_str) + ')', re.VERBOSE | re.IGNORECASE)
 emoticon_re = re.compile(r'^' + emoticons_str + '$', re.VERBOSE | re.IGNORECASE)
 
-
 def tokenize(s):
     return tokens_re.findall(s)
 
@@ -76,8 +54,28 @@ def preprocess(s, lowercase=False):
         tokens = [token if emoticon_re.search(token) else token.lower() for token in tokens]
     return tokens
 
+Config = configparser.ConfigParser()
+Config.read("configuration.ini")
 
-tweet = 'RT @JordiTorresBCN: just an example! :D http://JordiTorres.Barcelona #masterMEI'
-print ("Tweer preprocessing after capturing emotions, hashtag, URLs:")
-print(preprocess(tweet))
+consumer_key = ConfigSectionMap("TwitterAPI")['consumerkey']
+consumer_secret = ConfigSectionMap("TwitterAPI")['consumersecret']
+access_token = ConfigSectionMap("TwitterAPI")['accesstoken']
+access_secret = ConfigSectionMap("TwitterAPI")['accesstokensecret']
 
+auth = OAuthHandler(consumer_key, consumer_secret)
+auth.set_access_token(access_token, access_secret)
+  
+api = tweepy.API(auth)
+
+user = api.me()
+
+
+for status in tweepy.Cursor(api.home_timeline).items(10):
+
+    print 'Tweet text: ', status.text
+    print ("Tweet preprocessing:")
+    print(word_tokenize(json.dumps(status.text)[1:-1]))
+
+    print ("Tweet preprocessing after capturing emotions, hashtag, URLs:")
+    print(preprocess(json.dumps(status.text)[1:-1]))
+    print('\n')
