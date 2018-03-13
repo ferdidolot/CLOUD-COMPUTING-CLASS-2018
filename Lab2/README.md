@@ -59,3 +59,19 @@ To make the output more readible, we have tested the code using the `text format
 The output for our Twitter account is: 
 
 ![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab2/Lab2.2.2_Output.png)
+
+
+## Task 2.2.3: Tweet pre-processing ##
+
+For this task in order to avoid mixing it with Task 2.2.2 we have created a new file `Python_3.py`.  
+
+* We have pre-processed 10 tweets from our twitter account timeline:
+    `for status in tweepy.Cursor(api.home_timeline).items(10):`
+* To remove the unicode characters we have used:
+    `print(word_tokenize(json.dumps(status.text)[1:-1]))`
+
+
+
+
+
+
