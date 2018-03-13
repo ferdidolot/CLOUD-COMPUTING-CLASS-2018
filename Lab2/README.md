@@ -55,6 +55,10 @@ To make the output more readible, we have tested the code using the `text format
 3. List of Tweets (tweet text and created date):<br />
 `for tweet in tweepy.Cursor(api.user_timeline).items(5):`<br />
    `print(tweet.text,'|', tweet.created_at)`
+   
+The output for our Twitter account is: 
+
+![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab2/Lab2.2.2_Output.png)
 
 ## Task 2.2.3: Tweet pre-processing ##
 
@@ -65,7 +69,7 @@ For this task in order to avoid mixing it with Task 2.2.2 we have created a new 
 * To remove the unicode characters we have used:<br />
     `print(word_tokenize(json.dumps(status.text)[1:-1]))`
 
-The output for our Twitter account is: 
+The output for our Twitter account is: (we have displayed only 6 tweets on the printscreen below) 
 
 ![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab2/Lab2.2.3_Output.png)
 
