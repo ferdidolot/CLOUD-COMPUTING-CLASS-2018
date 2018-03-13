@@ -30,8 +30,10 @@ The output for Task 2.1 is shown in the following  printscreen:
 
 ## Task 2.2.1: Accessing twitter account information ##
 
-The configuration to access Twitter are saved in the file: default_configuration.ini
-In order to access it, you should rename it to "configuration.ini" and update it with the values of your Twitter Authentications.
+The configuration to access Twitter are saved in the file: default-configuration.ini
+You should rename it to "configuration.ini" and update it with the values of your Twitter Authentications.
+We used this format of configuration to show flexibility in having section in configuration file, for example, we use "[TwitterAPI]" section to indicate section in configuration file related with twitter API. This section is useful because some of the variable can have the same name in multiple context, for example: 
+O-auth is a common format for authentication, and will use some general terminology such as token, secret key, etc. It is better to define a section related with each application than creating redundant variable name such as: TwitterAccessToken and FacebookAccessToken.
 
 In our case the information printed from our Twitter account was:
 
@@ -42,7 +44,7 @@ In our case the information printed from our Twitter account was:
 
 The file `twitter_2.py` that we have uploaded is accessing tweet information using the `JSON format` (we have used `attribute _json`).
 
-To make the output more readible, we have tested the code using the `text format` as following:
+To make the output more readable, we have tested the code using the `text format` as following:
 
 1. Twitter home timeline:<br />
 `for status in tweepy.Cursor(api.home_timeline).items(10):`<br />
@@ -68,9 +70,9 @@ For this task in order to avoid mixing it with Task 2.2.2 we have created a new 
     `for status in tweepy.Cursor(api.home_timeline).items(10):`<br />
 * Doing tweet processing directly to status.text will cause the output of the list to have the unicode sign literal as shown in example below:<br />
     `[u'Amsterdam', u',', u'Netherlands', u'to', u'Bangkok', u',', u'Thailand', u'for', u'only', u'\u20ac', u'326', u'roundtrip', u'(', u'min', u'2', u'pax', u')', u'with', u'@SingaporeAir', u'.', u'\u2026', u'https://t.co/BqM0VJLuE9']`
-* In order to remove the unicode sign 'u', we used json.dumps function:<br /> 
+* In order to remove the unicode sign 'u', we used json.dumps function, and the output will be:<br /> 
     `"Amsterdam, Netherlands to Bangkok, Thailand for only €326 roundtrip (min 2 pax) with @SingaporeAir.… https://t.co/BqM0VJLuE9"`
-* We use substring [1:-1] to remove the double quote produces in front and end of json dump output. Output of tweet processing is as following: <br />
+* We then use substring [1:-1] to remove the double quote produced in front and end of json dump output. Our sample output of tweet processing is as following: <br />
     `['Amsterdam', ',', 'Netherlands', 'to', 'Bangkok', ',', 'Thailand', 'for', 'only', '\\', 'u20ac326', 'roundtrip', '(', 'min', '2', 'pax', ')', 'with', '@SingaporeAir', '.', '\\', 'u2026', 'https://t.co/BqM0VJLuE9']`
     
 
