@@ -30,10 +30,10 @@ The output for Task 2.1 is shown in the following  printscreen:
 
 ## Task 2.2.1: Accessing twitter account information ##
 
-The configuration to access Twitter are saved in the file: default-configuration.ini
-You should rename it to "configuration.ini" and update it with the values of your Twitter Authentications.
-We used this format of configuration to show flexibility in having section in configuration file, for example, we use "[TwitterAPI]" section to indicate section in configuration file related with twitter API. This section is useful because some of the variable can have the same name in multiple context, for example: 
-O-auth is a common format for authentication, and will use some general terminology such as token, secret key, etc. It is better to define a section related with each application than creating redundant variable name such as: TwitterAccessToken and FacebookAccessToken.
+The configuration to access Twitter are saved in the file: `default-configuration.ini`
+You should rename it to `configuration.ini` and update it with the values of your Twitter Authentications. <br /><br />
+We used this format of configuration to show flexibility and remove redundancy in configuration file, for example, we use `[TwitterAPI]` section to indicate section in configuration file that is related with twitter API. This section is useful because some of the variable can have the same name in multiple context, for example: <br /><br />
+O-auth is a common format for authentication, and will use some general terminology such as token, secret key, etc. It is better to define a section related with each application than creating redundant variable name such as: TwitterAccessToken and FacebookAccessToken. <br />
 
 In our case the information printed from our Twitter account was:
 
