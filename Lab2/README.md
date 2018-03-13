@@ -44,16 +44,16 @@ The file `twitter_2.py` that we have uploaded is accessing tweet information usi
 
 To make the output more readible, we have tested the code using the `text format` as following:
 
-1. Twitter home timeline:
-`for status in tweepy.Cursor(api.home_timeline).items(10):
-    print(status.text)`
-    
-2. List of Friends (their name and screen name)
-`for friend in tweepy.Cursor(api.friends).items(10):
-    print(friend.name,'|' ,friend.screen_name)`
-    
-3. List of Tweets (tweet text and created date)
-`for tweet in tweepy.Cursor(api.user_timeline).items(5):
-   print(tweet.text,'|', tweet.created_at)`
+1. Twitter home timeline:<br />
+`for status in tweepy.Cursor(api.home_timeline).items(10):`<br />
+    `print(status.text)`
+    <br />
+2. List of Friends (their name and screen name): <br />
+`for friend in tweepy.Cursor(api.friends).items(10):`<br />
+   ` print(friend.name,'|' ,friend.screen_name)`
+    <br />
+3. List of Tweets (tweet text and created date):<br />
+`for tweet in tweepy.Cursor(api.user_timeline).items(5):`<br />
+   `print(tweet.text,'|', tweet.created_at)`
 
 
