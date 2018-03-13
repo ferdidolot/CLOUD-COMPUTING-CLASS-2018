@@ -56,4 +56,6 @@ To make the output more readible, we have tested the code using the `text format
 `for tweet in tweepy.Cursor(api.user_timeline).items(5):`<br />
    `print(tweet.text,'|', tweet.created_at)`
 
+The output for our Twitter account is: 
 
+![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab2/Lab2.2.2_Output.png)
