@@ -66,8 +66,13 @@ For this task in order to avoid mixing it with Task 2.2.2 we have created a new 
 
 * We have pre-processed 10 tweets from our twitter account timeline:<br />
     `for status in tweepy.Cursor(api.home_timeline).items(10):`<br />
-* To remove the unicode characters we have used:<br />
-    `print(word_tokenize(json.dumps(status.text)[1:-1]))`
+* Doing tweet processing directly to status.text will cause the output of the list to have the unicode sign literal as shown in example below:<br />
+    `[u'Amsterdam', u',', u'Netherlands', u'to', u'Bangkok', u',', u'Thailand', u'for', u'only', u'\u20ac', u'326', u'roundtrip', u'(', u'min', u'2', u'pax', u')', u'with', u'@SingaporeAir', u'.', u'\u2026', u'https://t.co/BqM0VJLuE9']`
+* In order to remove the unicode sign 'u', we used json.dumps function:<br /> 
+    `"Amsterdam, Netherlands to Bangkok, Thailand for only €326 roundtrip (min 2 pax) with @SingaporeAir.… https://t.co/BqM0VJLuE9"`
+* We use substring [1:-1] to remove the double quote produces in front and end of json dump output. Output of tweet processing is as following: <br />
+    `['Amsterdam', ',', 'Netherlands', 'to', 'Bangkok', ',', 'Thailand', 'for', 'only', '\\', 'u20ac326', 'roundtrip', '(', 'min', '2', 'pax', ')', 'with', '@SingaporeAir', '.', '\\', 'u2026', 'https://t.co/BqM0VJLuE9']`
+    
 
 The output for our Twitter account is: (we have displayed only 6 tweets on the printscreen below) 
 
