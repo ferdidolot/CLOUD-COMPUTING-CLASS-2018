@@ -7,11 +7,15 @@ nltk.download("stopwords") # download the stopword corpus on our computer
 import string
 
 import matplotlib as mpl
-mpl.rcParams['figure.figsize'] = (10,10)
+mpl.rcParams['figure.figsize'] = (14,14)
 import matplotlib.pyplot as plt
-print "backend: ", plt.get_backend()
+
+#print "backend: ", plt.get_backend()
+
+#Switch backend is necessary to produce the plot
 plt.switch_backend('agg')
-print "backend: ", plt.get_backend()
+
+#print "backend: ", plt.get_backend()
 
 punctuation = list(string.punctuation)
 stop = stopwords.words('english') + punctuation + ['rt', 'via', 'RT']
@@ -52,7 +56,7 @@ def preprocess(s, lowercase=False):
         tokens = [token if emoticon_re.search(token) else token.lower() for token in tokens]
     return tokens
 
-fname = 'Lab3.CaseStudy.json'
+fname = 'ArtificialIntelligenceTweets.json'
 with open(fname, 'r') as f:
     count_all = Counter()
     for line in f:
