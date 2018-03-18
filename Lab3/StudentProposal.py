@@ -83,47 +83,32 @@ with open(fname, 'r') as f:
         terms_men = [term for term in preprocess(tweet['text']) if term.startswith('@') and term not in stop]
         count_men.update(terms_men)
 
+
+
+def generatePlot(count,plotName):
+
+    print(count.most_common(15))
+    sorted_x, sorted_y = zip(*count.most_common(15))
+    print(sorted_x, sorted_y)
+
+    plt.bar(range(len(sorted_x)), sorted_y, width=0.75, align='center')
+    plt.xticks(range(len(sorted_x)), sorted_x, rotation=60)
+    plt.axis('tight')
+    plt.show()                  # show it on IDE
+    plt.savefig(plotName)  # save it on a file
+    plt.gcf().clear()           #forget the previous char
+
+
+
+
 # Print and generate the plot for the first 15 most frequent tokens
-print(count_all.most_common(15))
-sorted_x, sorted_y = zip(*count_all.most_common(15))
-print(sorted_x, sorted_y)
-
-plt.bar(range(len(sorted_x)), sorted_y, width=0.75, align='center')
-plt.xticks(range(len(sorted_x)), sorted_x, rotation=60)
-plt.axis('tight')
-plt.show()                  # show it on IDE
-plt.savefig('StudentProposal_Tokens.png')     # save it on a file
-
+generatePlot(count_all, 'StudentProposal_Tokens.png')
 
 # Print and generate the plot for the first 15 most frequent hashtags
-print(count_hashtag.most_common(15))
-sorted_h1, sorted_h2 = zip(*count_hashtag.most_common(15))
-print(sorted_h1, sorted_h2)
+generatePlot(count_hashtag, 'StudentProposal_Hashtags.png')
 
-plt.bar(range(len(sorted_h1)), sorted_h2, width=0.75, align='center')
-plt.xticks(range(len(sorted_h1)), sorted_h1, rotation=60)
-plt.axis('tight')
-plt.show()                  # show it on IDE
-plt.savefig('StudentProposal_Hashtags.png')     # save it on a file
-
-# Print and generate the plot for the first 15 most frequent terms skipping hashtags and mentions
-print(count_only.most_common(15))
-sorted_o1, sorted_o2 = zip(*count_only.most_common(15))
-print(sorted_o1, sorted_o2)
-
-plt.bar(range(len(sorted_o1)), sorted_o2, width=0.75, align='center')
-plt.xticks(range(len(sorted_o1)), sorted_o1, rotation=60)
-plt.axis('tight')
-plt.show()                  # show it on IDE
-plt.savefig('StudentProposal_NoHashNoMentions.png')     # save it on a file
+# Print and generate the plot for the first 15 most frequent tokens skipping hashtags and mentions
+generatePlot(count_only, 'StudentProposal_NoHashtagsMentions.png')
 
 # Print and generate the plot for the first 15 most frequent mentions
-print(count_men.most_common(15))
-sorted_m1, sorted_m2 = zip(*count_men.most_common(15))
-print(sorted_m1, sorted_m2)
-
-plt.bar(range(len(sorted_m1)), sorted_m2, width=0.75, align='center')
-plt.xticks(range(len(sorted_m1)), sorted_m1, rotation=60)
-plt.axis('tight')
-plt.show()                  # show it on IDE
-plt.savefig('StudentProposal_Mentions.png')     # save it on a file
+generatePlot(count_men, 'StudentProposal_Mentions.png')
