@@ -18,7 +18,7 @@ The following screenshot shows the list of:
                       if term.startswith('#') and len(term) > 1]`. This can also be solved by adding:`and term not in stop`)
 * Top ten most frequent terms, skipping mentions and hashtags.
 
-![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab3/Lab3.2_Output2.png)
+![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab3/Lab3.2_Output.png)
 
 ## Task 3.3: Case study ##
 
