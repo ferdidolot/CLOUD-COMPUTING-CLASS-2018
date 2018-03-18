@@ -56,11 +56,11 @@ punctuation = list(string.punctuation)
 stop = stopwords.words('english') + punctuation + ['rt', 'via', 'RT']
 
 
-#Generate list of most frequent token, hashtag, terms skiping mentions and hashtag
+#Generate list of most frequent token, hashtag and terms skiping mentions and hashtag
 
 fname = 'ArtificialIntelligenceTweets.json'
 with open(fname, 'r') as f:
-    count_stop = Counter()
+    count_all = Counter()
     count_hashtag=Counter()
     count_only = Counter()
 
@@ -68,8 +68,8 @@ with open(fname, 'r') as f:
         tweet = json.loads(line)
 
         # Create a list with all the tokens
-        terms_stop = [term for term in preprocess(tweet['text']) if term not in stop]
-        count_stop.update(terms_stop)
+        terms_all = [term for term in preprocess(tweet['text']) if term not in stop]
+        count_all.update(terms_all)
 
         # Create a list with hashtags
         terms_hash = [term for term in preprocess(tweet['text'])
@@ -83,7 +83,7 @@ with open(fname, 'r') as f:
         count_only.update(terms_only)
 
     print ('Print the 10 top tokens:')
-    for word, index in count_only.most_common(10):
+    for word, index in count_all.most_common(10):
         print ('%s : %s' % (word, index))
     print('\n')
     print ('Print the 10 top hashtags:')
