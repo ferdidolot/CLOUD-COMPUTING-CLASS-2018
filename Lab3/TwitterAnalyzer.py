@@ -53,7 +53,13 @@ def preprocess(s, lowercase=False):
 #Handling puncuation marks and terms like RT (re-tweets) and via
 
 punctuation = list(string.punctuation)
-stop = stopwords.words('english') + punctuation + ['rt', 'via', 'RT']
+
+# noisy unicodes:
+# Fire: U0001f525
+# Tripledots: u2026
+noisy_unicodes = [u'\U0001f525' , u'\u2026']
+
+stop = stopwords.words('english') + punctuation + ['rt', 'via', 'RT'] + noisy_unicodes
 
 
 #Generate list of most frequent token, hashtag and terms skiping mentions and hashtag
