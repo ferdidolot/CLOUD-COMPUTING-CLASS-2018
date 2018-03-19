@@ -26,7 +26,7 @@ punctuation = list(string.punctuation)
 noisy_unicodes = [u'\U0001f525' , u'\u2026']
 unicodes = [];
 for i in range(0,65533):
-    unicodes.append(unichr(i))
+    unicodes.append(chr(i))
 # print unicodes
 stop = stopwords.words('english') + punctuation + ['rt', 'via', 'RT'] + unicodes
 
