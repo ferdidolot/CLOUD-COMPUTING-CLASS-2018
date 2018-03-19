@@ -5,6 +5,7 @@ import nltk
 from nltk.corpus import stopwords
 nltk.download("stopwords")
 import string
+import sys
 
 import matplotlib as mpl
 mpl.rcParams['figure.figsize'] = (14,14)
@@ -23,8 +24,11 @@ punctuation = list(string.punctuation)
 # Fire: U0001f525
 # Tripledots: u2026
 noisy_unicodes = [u'\U0001f525' , u'\u2026']
-
-stop = stopwords.words('english') + punctuation + ['rt', 'via', 'RT'] + noisy_unicodes
+unicodes = [];
+for i in range(0,65533):
+    unicodes.append(unichr(i))
+# print unicodes
+stop = stopwords.words('english') + punctuation + ['rt', 'via', 'RT'] + unicodes
 
 # Capturing emotions, hashtag, URLs
 
@@ -58,11 +62,11 @@ def tokenize(s):
 
 def preprocess(s, lowercase=False):
     tokens = tokenize(s)
-    if lowercase:
-        tokens = [token if emoticon_re.search(token) else token.lower() for token in tokens]
+    #if lowercase:
+    tokens = [token if emoticon_re.search(token) else token.lower() for token in tokens]
     return tokens
 
-fname = 'WeekendTweets.json'
+fname = sys.argv[1] + '.json'
 with open(fname, 'r') as f:
     count_all = Counter()
     count_hashtag = Counter()

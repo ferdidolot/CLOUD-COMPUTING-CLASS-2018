@@ -3,6 +3,7 @@ import json
 import configparser
 from nltk.tokenize import word_tokenize
 import re
+import sys
 
 from tweepy import OAuthHandler
 from tweepy import Stream
@@ -12,7 +13,7 @@ class MyListener(StreamListener):
 
     def on_data(self, data):
         try:
-            with open('WeekendTweets.json', 'a') as f:
+            with open(sys.argv[1] + '.json', 'a') as f:
                 f.write(data)
                 return True
         except BaseException as e:
@@ -90,6 +91,6 @@ api = tweepy.API(auth)
 user = api.me()
 
 twitter_stream = Stream(auth, MyListener())
-twitter_stream.filter(track=['weekend'])
+twitter_stream.filter(track=[sys.argv[1]])
 
 
