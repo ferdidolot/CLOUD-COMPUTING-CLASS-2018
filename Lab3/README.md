@@ -4,15 +4,16 @@ The dataset that we have generated `ArtificialIntelligenceTweets.json` contains 
 
 ![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab3/Lab3.1_Output1.png)
 
-The tweets are saved in JSON format. To illustrate this the last tweet of this file is displayed below, by using `tail -n 1 ArtificialIntelligenceTweets.json`
+The tweets are saved in JSON format. For illustration purposes, the last tweet of this file is displayed below, by using `tail -n 1 ArtificialIntelligenceTweets.json`
 
 ![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab3/Lab3.1_Output2.png)
 
 
 ## Task 3.2: Analyzing tweets - Counting terms ##
 
-During this task we have created the program  `TwitterAnalyzer.py` to analyzed the tweets for `ArtificialIntelligenceTweets.json` file. Th  `.json` file is read only once as following:
- ```for line in f:
+During this task we have created the program  `TwitterAnalyzer.py` to analyzed the tweets for `ArtificialIntelligenceTweets.json` file. The  `.json` file is read only once as following:
+ ```
+    for line in f:
     tweet = json.loads(line)
 
         # Create a list with all the tokens
@@ -28,7 +29,8 @@ During this task we have created the program  `TwitterAnalyzer.py` to analyzed t
         terms_only = [term for term in preprocess(tweet['text'])
                       if term not in stop and
                       not term.startswith(('#', '@'))]
-        count_only.update(terms_only)```
+        count_only.update(terms_only)
+ ```
 
 
   The following printscreen shows:
@@ -42,8 +44,10 @@ During this task we have created the program  `TwitterAnalyzer.py` to analyzed t
 ** Some remarks related with this task are: **
 
 * By default the first two tokens listed as the most frequent token were two Unicode characters, as shown below. We have removed these noisy Unicodes from our result as they were not relevant with the given topic. <br/>
-```noisy_unicodes = [u'\U0001f525' , u'\u2026']
-stop = stopwords.words('english') + punctuation + ['rt', 'via', 'RT'] + noisy_unicodes```
+```
+noisy_unicodes = [u'\U0001f525' , u'\u2026']
+stop = stopwords.words('english') + punctuation + ['rt', 'via', 'RT'] + noisy_unicodes
+```
 
 ![alt text](https://github.com/raisauku/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab3/Lab3.2_Output1.png)
 
@@ -77,12 +81,14 @@ that will be analyzed: <br/>
 `fname = sys.argv[1] + '.json` <br/>
 Our first results also included different `Unicode characters`, which did not help in the analysis of our case.
 Therefore we decided to remove those characters by using:
-```noisy_unicodes = [u'\U0001f525' , u'\u2026']
+```
+    noisy_unicodes = [u'\U0001f525' , u'\u2026']
     unicodes = [];
     for i in range(0,65533):
          unicodes.append(chr(i))
     # print unicodes
-    stop = stopwords.words('english') + punctuation + ['rt', 'via', 'RT'] + unicodes```
+    stop = stopwords.words('english') + punctuation + ['rt', 'via', 'RT'] + unicodes
+```
 
 * We constructed  the following function `def generatePlot(count,plotName):` to generate the following plots:
 
@@ -127,12 +133,12 @@ The plots that are used for analysis are displayed below:
 
 ** Hashtags Plot **
 
-![alt text](https://github.com/raisauku/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab3/StudentProposal_Hashtags.png)
+![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab3/StudentProposal_Hashtags.png)
 
 ** Mentions Plot **
 
-![alt text](https://github.com/raisauku/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab3/StudentProposal_Mentions.png)
+![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab3/StudentProposal_Mentions.png)
 
 ** Tokens Plot **
 
-![alt text](https://github.com/raisauku/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab3/StudentProposal_Tokens.png)
+![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab3/StudentProposal_Tokens.png)
