@@ -41,7 +41,7 @@ During this task we have created the program  `TwitterAnalyzer.py` to analyzed t
 
 ![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab3/Lab3.2_Output2.png)
 
-** Some remarks related with this task are: **
+**Some remarks related with this task are:**
 
 * By default the first two tokens listed as the most frequent token were two Unicode characters, as shown below. We have removed these noisy Unicodes from our result as they were not relevant with the given topic. <br/>
 ```
@@ -58,29 +58,28 @@ stop = stopwords.words('english') + punctuation + ['rt', 'via', 'RT'] + noisy_un
 
 ## Task 3.3: Case study ##
 
-The plot for the Case Study is showed below. From the analysis we can conclude that when it comes to `Artificial Intelligence` people mostly talk about `#BigData` `#BlockChain`, `IoT`. <br/>
+The plot for the Case Study is showed below. From the analysis we can conclude that when it comes to `Artificial Intelligence` people mostly talk about `#BigData` `#BlockChain`, `#IoT`. <br/>
 Other useful hashtags are:<br/>
 `#InternetOfThings, #IndustrialIoT, #Ai, #DataScience, #Technology, #IndustrialInternetIfThings, #Industry40, #Microsoft, #Cloud, #IIoT, #Business`
 
 To produce the plot it is necessary to include the following line of code:<br/>
 `plt.switch_backend('agg')`
 
-
 ![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab3/CaseStudy.png)
 
-## Task 3.4: Student Proposal ##
+## Task 3.4: Student Proposal - Cryptocurrency ##
 
 We have decided to analyze what do people talk about when it comes to one of the most currently hottest topics `cryptocurrency`.
 
 * The file `StudentProposal_TwitterStream.py` is constructed to listen for the stream and collect the tweets in the `.JSON` file.
-In order to ** simultaneously listen for streams with different filtering criteria ** we have modified the line of code where we define our filter criteria, like below:
+In order to **simultaneously listen for streams with different filtering criteria** we have modified the line of code where we define our filter criteria, like below:
 `twitter_stream.filter(track=[sys.argv[1]])` <br/>
 
 * The file `StudentProposal.py` is used to analyze the tweets. We have used the same logic as above, by using arguments to define the `.JSON` file
 that will be analyzed: <br/>
 `fname = sys.argv[1] + '.json` <br/>
-Our first results also included different `Unicode characters`, which did not help in the analysis of our case.
-Therefore we decided to remove those characters by using:
+
+* As our first results also included different `Unicode characters`, which did not help in the analysis of our case, we decided to remove those characters by using:
 ```
     noisy_unicodes = [u'\U0001f525' , u'\u2026']
     unicodes = [];
@@ -90,28 +89,29 @@ Therefore we decided to remove those characters by using:
     stop = stopwords.words('english') + punctuation + ['rt', 'via', 'RT'] + unicodes
 ```
 
-* We constructed  the following function `def generatePlot(count,plotName):` to generate the following plots:
+* The function `def generatePlot(count,plotName):` is constructed to generate the following plots:
 
-* Top 15 most frequent hashtags
-* Top 15 most frequent mentions
-* Top 15 most frequent tokens
+    * Top 15 most frequent hashtags
+    * Top 15 most frequent mentions
+    * Top 15 most frequent tokens
 
-By analyzing the plots we reached into the following conclusions:
+**By analyzing the plots we reached into the following conclusions:**
 
-** Hashtags Plot **
+**Hashtags Plot**
 
 People interested into `cryptocurrency`, mostly talk about: <br/>
  `#bitcoin` - Blockchain currency<br/>
  `#blockchain`<br/>
- `#ico` - that stands for Initial Coin Offering <br/>
- `#crypto`
+ `#ico` - Initial Coin Offering <br/>
+ `#crypto` <br/>
  `#airdrop` - the procedure of distributing tokens by awarding them to existing holders of a particular blockchain currency, such as Bitcoin or Ethereum
  `#ethereum`- another Blockchain currency
 
 Other useful hashtags are: `#btc, #satoshi, #earn_money, #cryptocurrencies, #token, #tokensale, #eth, #ether`
 
+![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab3/StudentProposal_Hashtags.png)
 
-** Mentions Plot **
+**Mentions Plot**
 
 There are also interesting results from analyzing the top mentions when it comes to `cryptocurrency`.
 The top-three are:<br/>
@@ -123,22 +123,12 @@ The top-three are:<br/>
 
 Other useful mentions are: `@coinsairdrops, @randolphmlny, @justionsuntron, @listia, @coinseedap`
 
-
-** Tokens Plot **
-
-In the tokens plot, despite the hashtags and mentions that we have defined above, we can see that people relate `cryptocurrency` even with `trump` and `US`.
-Other useful tokens are 'new` `join` `free`, all of them describing the nature of the `cryptocurrency` trend.
-
-The plots that are used for analysis are displayed below:
-
-** Hashtags Plot **
-
-![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab3/StudentProposal_Hashtags.png)
-
-** Mentions Plot **
-
 ![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab3/StudentProposal_Mentions.png)
 
-** Tokens Plot **
+
+**Tokens Plot**
+
+In the tokens plot, despite the hashtags and mentions that we have defined above, we can see that people relate `cryptocurrency` even with `trump` and `US`.
+Other useful tokens are `new` `join` `free`, all of them describing the nature of the `cryptocurrency` trend.
 
 ![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab3/StudentProposal_Tokens.png)
