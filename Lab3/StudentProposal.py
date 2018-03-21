@@ -11,23 +11,16 @@ import matplotlib as mpl
 mpl.rcParams['figure.figsize'] = (14,14)
 import matplotlib.pyplot as plt
 
-#print "backend: ", plt.get_backend()
-
 #Switch backend is necessary to produce the plot
 plt.switch_backend('agg')
 
-#print "backend: ", plt.get_backend()
 
 punctuation = list(string.punctuation)
 
-# noisy unicodes:
-# Fire: U0001f525
-# Tripledots: u2026
-noisy_unicodes = [u'\U0001f525' , u'\u2026']
 unicodes = [];
 for i in range(0,65533):
     unicodes.append(chr(i))
-# print unicodes
+
 stop = stopwords.words('english') + punctuation + ['rt', 'via', 'RT'] + unicodes
 
 # Capturing emotions, hashtag, URLs
@@ -62,7 +55,7 @@ def tokenize(s):
 
 def preprocess(s, lowercase=False):
     tokens = tokenize(s)
-    #if lowercase:
+
     tokens = [token if emoticon_re.search(token) else token.lower() for token in tokens]
     return tokens
 
@@ -82,12 +75,6 @@ with open(fname, 'r') as f:
         # Create a list with hashtags
         terms_hash = [term for term in preprocess(tweet['text']) if term.startswith('#') and term not in stop]
         count_hashtag.update(terms_hash)
-
-        #Create a list of terms onlyt skipping hashtags and mentions
-        terms_only = [term for term in preprocess(tweet['text'])
-                      if term not in stop and
-                      not term.startswith(('#', '@'))]
-        count_only.update(terms_only)
 
         # Create a list with mentions
         terms_men = [term for term in preprocess(tweet['text']) if term.startswith('@') and term not in stop]
@@ -116,9 +103,6 @@ generatePlot(count_all, 'StudentProposal_Tokens.png')
 
 # Print and generate the plot for the first 15 most frequent hashtags
 generatePlot(count_hashtag, 'StudentProposal_Hashtags.png')
-
-# Print and generate the plot for the first 15 most frequent tokens skipping hashtags and mentions
-generatePlot(count_only, 'StudentProposal_NoHashtagsMentions.png')
 
 # Print and generate the plot for the first 15 most frequent mentions
 generatePlot(count_men, 'StudentProposal_Mentions.png')
