@@ -49,6 +49,8 @@ noisy_unicodes = [u'\U0001f525' , u'\u2026']
 stop = stopwords.words('english') + punctuation + ['rt', 'via', 'RT'] + noisy_unicodes
 ```
 
+
+
 ![alt text](https://github.com/raisauku/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab3/Lab3.2_Output1.png)
 
 
@@ -62,8 +64,9 @@ The plot for the Case Study is showed below. From the analysis we can conclude t
 Other useful hashtags are:<br/>
 `#InternetOfThings, #IndustrialIoT, #Ai, #DataScience, #Technology, #IndustrialInternetIfThings, #Industry40, #Microsoft, #Cloud, #IIoT, #Business`
 
-To produce the plot it is necessary to include the following line of code:<br/>
-`plt.switch_backend('agg')`
+To produce the plot, it is necessary to switch py plot backend rendering by including the following line of code:<br/>
+`plt.switch_backend('agg')`  <br/>
+\**Agg: raster graphics – high quality images using the Anti-Grain Geometry engine (ref: https://matplotlib.org/faq/usage_faq.html)*.
 
 ![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab3/CaseStudy.png)
 
@@ -72,20 +75,21 @@ To produce the plot it is necessary to include the following line of code:<br/>
 We have decided to analyze what do people talk about when it comes to one of the most currently hottest topics `cryptocurrency`.
 
 * The file `StudentProposal_TwitterStream.py` is constructed to listen for the stream and collect the tweets in the `.JSON` file.
-In order to **simultaneously listen for streams with different filtering criteria** we have modified the line of code where we define our filter criteria, like below:
+In order to **simultaneously listen for streams with different filtering criteria** we have modified the line of code where we define our filter criteria, like below: <br/>
 `twitter_stream.filter(track=[sys.argv[1]])` <br/>
+and produce `.JSON` file associated with the twitter topics: <br/>
+`with open(sys.argv[1] + '.json', 'a') as f:` <br/>
 
-* The file `StudentProposal.py` is used to analyze the tweets. We have used the same logic as above, by using arguments to define the `.JSON` file
+* The file `StudentProposal.py` is used to analyze the tweets. We have used the same logic as above, by using arguments to define the topic of `.JSON` file
 that will be analyzed: <br/>
 `fname = sys.argv[1] + '.json` <br/>
 
 * As our first results also included different `Unicode characters`, which did not help in the analysis of our case, we decided to remove those characters by using:
 ```
-    noisy_unicodes = [u'\U0001f525' , u'\u2026']
     unicodes = [];
     for i in range(0,65533):
          unicodes.append(chr(i))
-    # print unicodes
+    
     stop = stopwords.words('english') + punctuation + ['rt', 'via', 'RT'] + unicodes
 ```
 
