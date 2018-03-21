@@ -82,7 +82,7 @@ with open(fname, 'r') as f:
                       if term.startswith('#') and len(term) > 1]
         count_hashtag.update(terms_hash)
 
-        #Create a list of terms onlyt skipping hashtags and mentions
+        #Create a list of terms only skipping hashtags and mentions
         terms_only = [term for term in preprocess(tweet['text'])
                       if term not in stop and
                       not term.startswith(('#', '@'))]
