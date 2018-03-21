@@ -121,7 +121,7 @@ The top-three are:<br/>
 `@swapynetwork` - a decentralized platform that aims to provide Universal Access to Credit using blockchain technology <br/>
 
 
-Other useful mentions are: `@coinsairdrops, @randolphmlny, @justionsuntron, @listia, @coinseedap'
+Other useful mentions are: `@coinsairdrops, @randolphmlny, @justionsuntron, @listia, @coinseedap`
 
 
 ** Tokens Plot **
