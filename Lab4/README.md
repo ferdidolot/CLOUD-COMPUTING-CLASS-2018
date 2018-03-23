@@ -27,7 +27,7 @@ The users are registered from both local and the deployed web app.
 
 **Wait a couple of minutes and check again your EC2 console. What has happened?**<br/>
 
-**Why do you think that has happened? **<br/>
+**Why do you think that has happened?**<br/>
 
 ## Terminating the environment ##
 
