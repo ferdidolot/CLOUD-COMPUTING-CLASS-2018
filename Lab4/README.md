@@ -21,6 +21,8 @@ The users are registered from both local and the deployed web app.
 * We have modified the configuration file at `.elasticbeanstalk/config.yml` like below:
 ![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab4/ConfigForElasticbeanstalk.png)
 
+* Incorrect modification to the configuration file will cause trouble when deploying the application to EBS. In our case, we were required to push the compiled python code as well to make it works (which is not make any sense because the code should be compiled in EC2 instance). After tracing the error and configuring it correctly as also mentioned on previous point, we managed to make it run perfectly.
+
 ## Terminating the instance ##
 
 **What happens in your EBS console?**<br/>
