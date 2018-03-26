@@ -28,13 +28,17 @@ EBS will remove the instance due to EC2 health check failure.
 
 **Wait a couple of minutes and check again your EC2 console. What has happened?**<br/>
 An instance was automatically created in order to replace the instance that has been brought down.
+
 **Why do you think that has happened?**<br/>
 EBS detected failover to the instance that has been brought down, then it automatically triggered new instance to replace it.
+
 ## Terminating the environment ##
 
 **What has happened in your EBS console?**<br/>
 EC2 instance was also brought down. 
+
 **Why do you think that has happened?**<br/>
 EC2 instance is linked to EBS in configuration setting, hence when the environment was brought down, it also detect the dedicated instance and terminated it.
+
 **Check both EC2 and EBS consoles**<br/>
 EC2 and EBS environment were both terminated.
