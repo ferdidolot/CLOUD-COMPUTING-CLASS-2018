@@ -1,6 +1,6 @@
 ## GitHub Repository for the Web App ##
 
-https://github.com/ferdidolot/eb-django-express-signup(https://github.com/ferdidolot/eb-django-express-signup)
+https://github.com/ferdidolot/eb-django-express-signup
 
 ## DynamoDB Table ##
 
