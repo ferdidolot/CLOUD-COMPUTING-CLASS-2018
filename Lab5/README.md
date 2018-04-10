@@ -32,7 +32,7 @@ To avoid this error we modified the access to the IAM profile (instead of having
 
 After this steps when we add a lead we will get a notification on the defined  email:
 
-![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab5/Lab5_Task5.1_5.png)
+![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab5/Lab5_Task5.1_5.jpeg)
 
 ## Task 5.2: Create a new option to retrieve the list of leads ##
 
