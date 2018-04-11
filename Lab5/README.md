@@ -169,5 +169,154 @@ The strategy that we have used and the modification that we have done to the cod
 **The tradeoffs of our solution are:**
 
 
+
 ## Task 5.4: Deliver static content using a Content Delivery Network ##
+**Custom CSS file** <br/>
+After using custom.css, we recognize there are some changes in the web app as follow:
+![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab5/Lab5_Task5.4_1.png)
+
+**Add static files to S3 bucket** <br/>
+We then add the static files to Amazon S3 bucket. We make it public so it is readable by public.
+![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab5/Lab5_Task5.4_2.png)
+
+**Add CloudFront** <br/>
+We successfully deployed the cloudfront as follows: 
+![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab5/Lab5_Task5.4_3.png)
+
+By accessing the network inspection browser, we can now see that the files are coming from cloudfront.
+![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab5/Lab5_Task5.4_4.png)
+
+**Q55: How long have you been working on this session (including the optional part)? What have been the main difficulties you have faced and how have you solved them?**
+Estimated hours: 6 hours.
+For the optional part, we were able to think about the solution directly, although we spent some time to explore on how to implement it in dynamoDB and understand the existing code in general in order to adjust with the changes.
+
+**Django support for CDN**
+We configure our settings.py as follows:
+```
+...
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'form',
+    'storages'
+]
+...
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_STORAGE_BUCKET_NAME = "eb-django-express-signup-raisa-ferdi"
+AWS_S3_CUSTOM_DOMAIN = 'd3ertrvto3v3uu.cloudfront.net'
+```
+
+In order to be able to upload the file to s3, we have to set the policy for s3:
+![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab5/Lab5_Task5.4_5.png)
+
+We managed to run collect static and get the output as follow:
+```
+(eb-virt) dolsky@ubuntu:~/PycharmProjects/eb-django-express-signup$ python manage.py collectstatic
+
+You have requested to collect static files at the destination
+location as specified in your settings.
+
+This will overwrite existing files!
+Are you sure you want to do this?
+
+Type 'yes' to continue, or 'no' to cancel: yes
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/select2/i18n/lt.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/select2/i18n/fa.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/select2/i18n/it.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/select2/i18n/ar.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/select2/i18n/eu.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/select2/i18n/ru.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/select2/i18n/sk.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/select2/i18n/fr.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/select2/i18n/mk.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/select2/i18n/el.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/select2/i18n/hi.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/select2/i18n/sr-Cyrl.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/select2/i18n/ms.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/select2/i18n/az.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/select2/i18n/ko.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/select2/i18n/ja.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/select2/i18n/vi.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/select2/i18n/ro.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/select2/i18n/nb.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/select2/i18n/hu.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/select2/i18n/hr.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/select2/i18n/lv.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/select2/i18n/uk.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/select2/i18n/pl.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/select2/i18n/et.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/select2/i18n/en.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/select2/i18n/da.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/select2/i18n/de.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/select2/i18n/es.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/select2/i18n/pt-BR.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/select2/i18n/bg.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/select2/i18n/sr.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/select2/i18n/tr.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/select2/i18n/id.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/select2/i18n/th.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/select2/i18n/km.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/select2/i18n/is.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/select2/i18n/nl.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/select2/i18n/gl.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/select2/i18n/cs.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/select2/i18n/zh-TW.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/select2/i18n/pt.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/select2/i18n/fi.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/select2/i18n/sv.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/select2/i18n/ca.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/xregexp/LICENSE-XREGEXP.txt'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/xregexp/xregexp.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/xregexp/xregexp.min.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/jquery/jquery.min.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/jquery/LICENSE-JQUERY.txt'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/js/vendor/jquery/jquery.js'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/css/widgets.css'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/css/login.css'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/css/responsive_rtl.css'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/css/base.css'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/css/autocomplete.css'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/css/changelists.css'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/css/fonts.css'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/css/responsive.css'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/css/forms.css'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/css/dashboard.css'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/css/rtl.css'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/css/vendor/select2/select2.min.css'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/css/vendor/select2/LICENSE-SELECT2.md'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/css/vendor/select2/select2.css'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/img/inline-delete.svg'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/img/icon-no.svg'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/img/icon-yes.svg'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/img/icon-changelink.svg'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/img/icon-deletelink.svg'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/img/search.svg'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/img/tooltag-arrowright.svg'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/img/icon-alert.svg'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/img/sorting-icons.svg'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/img/icon-calendar.svg'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/img/icon-addlink.svg'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/img/calendar-icons.svg'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/img/tooltag-add.svg'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/img/LICENSE'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/img/README.txt'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/img/selector-icons.svg'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/img/icon-unknown-alt.svg'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/img/icon-clock.svg'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/img/icon-unknown.svg'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/img/gis/move_vertex_off.svg'
+Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django/contrib/admin/static/admin/img/gis/move_vertex_on.svg'
+
+86 static files copied, 35 unmodified.
+```
+
+And here is how the S3 bucket looked like
+
+![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab5/Lab5_Task5.4_6.png)
 
