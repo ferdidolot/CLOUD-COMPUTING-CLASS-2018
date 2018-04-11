@@ -34,7 +34,7 @@ After this steps when we add a lead we will get a notification on the defined  e
 
 ![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab5/Lab5_Task5.1_5.jpeg)
 
-### Q51: Has everything gone alright? ###
+*** Q51: Has everything gone alright? ***
 
 Everything has gone alright.
 
