@@ -36,7 +36,21 @@ After this steps when we add a lead we will get a notification on the defined  e
 
 ## Task 5.2: Create a new option to retrieve the list of leads ##
 
-**Add read permission to lab_sessions user in iam console**
+When we access  http://127.0.0.1:8000/search we will have the following screen showing that we can successfully retrieve the list of leads.
+
+![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab5/Lab5_Task5.2_1.png)
+
+The following printscreen shows the list displays the list of the leads (We have also add new options to the menu bar).
+
+![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab5/Lab5_Task5.2_2.png)
+
+Q 5.2: **Has everything gone alright? What have you changed?**
+
+Yes, everything has gone alright. We managed to have our web app running and successfully perform
+the searching for the leads.
+
+As mentioned in Task 5.1, it is important to emphasise that we have add Read Permission
+to `lab_session user` in IAM console.
 
 ## Task 5.3: Improve the web app transfer of information (optional) ##
 
