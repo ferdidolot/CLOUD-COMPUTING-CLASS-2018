@@ -26,13 +26,17 @@ When we try to add a new lead to our web app, the first time we got the followin
 
 ![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab5/Lab5_Task5.1_3.png)
 
-To avoid this error we modified the access to the IAM profile (instead of having access to put one item we change it to a list of allowed action in the Action property), like below:
+To avoid this error we modified the access of `lab_session user` in IAM console (instead of having access to put one item we change it to a list of allowed action in the Action property), like below:
 
 ![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab5/Lab5_Task5.1_4.png)
 
 After this steps when we add a lead we will get a notification on the defined  email:
 
 ![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab5/Lab5_Task5.1_5.jpeg)
+
+###Q51: Has everything gone alright? ###
+
+Everything has gone alright.
 
 ## Task 5.2: Create a new option to retrieve the list of leads ##
 
@@ -44,18 +48,20 @@ The following printscreen shows the list displays the list of the leads (We have
 
 ![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab5/Lab5_Task5.2_2.png)
 
-Q 5.2: **Has everything gone alright? What have you changed?**
+###Q5.2: Has everything gone alright? What have you changed?###
 
 Yes, everything has gone alright. We managed to have our web app running and successfully perform
 the searching for the leads.
 
-As mentioned in Task 5.1, it is important to emphasise that we have add Read Permission
+It is important to emphasise that we have add Read Permission
 to `lab_session user` in IAM console.
 
 ## Task 5.3: Improve the web app transfer of information (optional) ##
 
 **Create a new dynamoDB table to store domain and count** <br/>
-By examining the current app, we know that to get all the domain, the code will try to get all the domain from the list of all users' email addresses by parsing them. We all know that this is inefficient, and the better solution would be to create a separate table just to store the domain and the count associated with it. That way, when we are displaying the search page, list of domain can be taken from that particular table to reduce amount of data being transferred. 
+By examining the current app it is clear that to get all the domains, the code will try to get all the domain from the list of all users' email addresses by parsing them.
+ We all know that this is inefficient, and a better solution would be to create a separate table just to store the domain and the count associated with it.
+ In this way, when we are displaying the search page, list of domain can be taken from that particular table to reduce amount of data being transferred.
 DynamoDB table for domain can be seen as below:
 
 ![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab5/Lab5_Task5.3_1.png)
@@ -155,3 +161,15 @@ We also added the new function of `get_domains` to get the list of all domains i
 In order to make the changes work, we need to add update policy for lab_sessions user in iam console. 
 
 ![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab5/Lab5_Task5.3_2.png)
+
+
+###Q53: Describe the strategy used to fulfill the requirements of this section. What have you changed in the code and the configuration
+of the different resources used by the web app? What are the tradeoffs of your solution? ###
+
+The strategy that we have used and the modification that we have done to the code  is described above.
+
+** The tradeoffs of our solution are: **
+
+
+##Task 5.4: Deliver static content using a Content Delivery Network##
+
