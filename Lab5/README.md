@@ -166,8 +166,8 @@ In order to make the changes work, we need to add update policy for lab_sessions
 
 The strategy that we have used and the modification that we have done to the code  is described above.
 
-** The tradeoffs of our solution are: **
+**The tradeoffs of our solution are:**
 
 
-##Task 5.4: Deliver static content using a Content Delivery Network##
+## Task 5.4: Deliver static content using a Content Delivery Network ##
 
