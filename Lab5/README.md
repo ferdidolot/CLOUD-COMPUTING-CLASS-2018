@@ -44,6 +44,7 @@ After this steps when we add a lead we will get a notification on the defined  e
 By examining the current app, we know that to get all the domain, the code will try to get all the domain from the list of all users' email addresses by parsing them. We all know that this is inefficient, and the better solution would be to create a separate table just to store the domain and the count associated with it. That way, when we are displaying the search page, list of domain can be taken from that particular table to reduce amount of data being transferred. 
 DynamoDB table for domain can be seen as below:
 
+![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab5/Lab5_Task5.3_1.png)
 
 
 **Change code to accommodate changes** <br/>
@@ -138,3 +139,5 @@ We also added the new function of `get_domains` to get the list of all domains i
 
 **Add update permission to lab_sessions user in iam console** <br/>
 In order to make the changes work, we need to add update policy for lab_sessions user in iam console. 
+
+![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab5/Lab5_Task5.3_2.png)
