@@ -34,7 +34,7 @@ After this steps when we add a lead we will get a notification on the defined  e
 
 ![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab5/Lab5_Task5.1_5.jpeg)
 
-###Q51: Has everything gone alright? ###
+### Q51: Has everything gone alright? ###
 
 Everything has gone alright.
 
@@ -163,8 +163,8 @@ In order to make the changes work, we need to add update policy for lab_sessions
 ![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab5/Lab5_Task5.3_2.png)
 
 
-###Q53: Describe the strategy used to fulfill the requirements of this section. What have you changed in the code and the configuration
-of the different resources used by the web app? What are the tradeoffs of your solution? ###
+### Q53: Describe the strategy used to fulfill the requirements of this section. What have you changed in the code and the configuration
+### of the different resources used by the web app? What are the tradeoffs of your solution? ###
 
 The strategy that we have used and the modification that we have done to the code  is described above.
 
