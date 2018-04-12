@@ -167,28 +167,47 @@ In order to make the changes work, we need to add update policy for lab_sessions
 The strategy that we have used and the modification that we have done to the code  is described above.
 
 **The tradeoffs of our solution are:**
+* We would require extra space to store the domain.
+* If the user data has very different domain of email (each user has different email domain), then the domain table will also producing the nearly same workload as we will have the the same number of the row. Our current design will perform better on search page when the users have the same email domain so that the content of domain table will be less then the number of user.
+
+**The Tradeoffs in terms of man work are:**
+* We have to create a new table for storing domain count 
+* We have to create a new functionality to storing the domain count in the new table 
+* We need to create additional service to get all the existing domain and count from the new table
+* We need to adjust the html page with the newly built services
 
 
 
 ## Task 5.4: Deliver static content using a Content Delivery Network ##
 **Custom CSS file** <br/>
-After using custom.css, we recognize there are some changes in the web app as follow:
+After using custom.css, we recognize there are some changes in the web app as follow: <br/>
 ![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab5/Lab5_Task5.4_1.png)
+One different that we recognize is that there are new background which also using the file inside the static directory 
+```
+#newstartup {
+    background: url('startup-bg.png') no-repeat center center fixed;
+    ...
+}
 
+#jumbohome {
+    background: url('CCBDA-Square.png') no-repeat;
+  ...
+}
+```
 **Add static files to S3 bucket** <br/>
-We then add the static files to Amazon S3 bucket. We make it public so it is readable by public.
+We then add the static files to Amazon S3 bucket. We make it public so it is readable by public. Here is the capture of our S3 bucket. <br/>
 ![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab5/Lab5_Task5.4_2.png)
 
 **Add CloudFront** <br/>
-We successfully deployed the cloudfront as follows: 
+By following the step in CloudFront quick start, we have successfully deployed the cloudfront as follows: <br/>
 ![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab5/Lab5_Task5.4_3.png)
-
-By accessing the network inspection browser, we can now see that the files are coming from cloudfront.
+Once the CloudFront was successfully deployed, we will check the content of our webapp. By accessing the network inspection browser, we can now see that the files are served from cloudfront. <br/>
 ![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab5/Lab5_Task5.4_4.png)
 
 **Q55: How long have you been working on this session (including the optional part)? What have been the main difficulties you have faced and how have you solved them?**
 Estimated hours: 6 hours.
 For the optional part, we were able to think about the solution directly, although we spent some time to explore on how to implement it in dynamoDB and understand the existing code in general in order to adjust with the changes.
+The other parts were quite straightforward.
 
 **Django support for CDN**
 We configure our settings.py as follows:
@@ -212,10 +231,10 @@ AWS_STORAGE_BUCKET_NAME = "eb-django-express-signup-raisa-ferdi"
 AWS_S3_CUSTOM_DOMAIN = 'd3ertrvto3v3uu.cloudfront.net'
 ```
 
-In order to be able to upload the file to s3, we have to set the policy for s3:
+In order to be able to upload the file to s3, we have to set the policy for s3: <br/>
 ![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab5/Lab5_Task5.4_5.png)
 
-We managed to run collect static and get the output as follow:
+We defaulted all the policy for s3 just for simplicity of this project, however we are aware that in practice, we should only select the required policy. Lastly, We managed to run collect static and get the output as follow:
 ```
 (eb-virt) dolsky@ubuntu:~/PycharmProjects/eb-django-express-signup$ python manage.py collectstatic
 
@@ -316,7 +335,7 @@ Copying '/home/dolsky/PycharmProjects/eb-virt/lib/python3.5/site-packages/django
 86 static files copied, 35 unmodified.
 ```
 
-And here is how the S3 bucket looked like
+And here is how the S3 bucket looked like: <br/>
 
 ![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab5/Lab5_Task5.4_6.png)
 
