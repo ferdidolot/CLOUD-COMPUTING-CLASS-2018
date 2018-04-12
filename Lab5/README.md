@@ -179,6 +179,10 @@ The strategy that we have used and the modification that we have done to the cod
 
 
 ## Task 5.4: Deliver static content using a Content Delivery Network ##
+**Q54: Take a couple of screenshots of you S3 and CloudFront consoles to demonstrate that everything worked all right.**
+
+The screenshots below demonstrate that S3 and CloudFront concoles work fine for our app.
+
 **Custom CSS file** <br/>
 After using custom.css, we recognize there are some changes in the web app as follow: <br/>
 ![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab5/Lab5_Task5.4_1.png)
