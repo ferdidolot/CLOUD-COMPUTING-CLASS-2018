@@ -172,12 +172,23 @@ def get_tweets(self, start_date, end_date):
 
 **Q62b: Make the necessary changes to have geo_data.json distributed using S3, or the method you used for the above section. Publish your changes to EB and explain what changes have you made to have this new function working**
 ```
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_STORAGE_BUCKET_NAME = "eb-django-express-signup-raisa-ferdi"
+AWS_S3_CUSTOM_DOMAIN = 's3.eu-central-1.amazonaws.com/eb-django-express-signup-raisa-ferdi/static'
+```
+
+```
 # with open(os.path.join(BASE_DIR, 'static', filename), 'w') as fout:
 #     fout.write(json.dumps(geo_data, indent=4))
 data = BytesIO(str.encode(json.dumps(geo_data, indent=4)))
 s3 = boto3.resource('s3')
 bucket = s3.Bucket('eb-django-express-signup-raisa-ferdi')
-bucket.upload_fileobj(data, 'static/' + filename, ExtraArgs={'ACL': 'public-read'})
+try:
+    s3.Object('eb-django-express-signup-raisa-ferdi', 'static/'+filename).load()
+except botocore.exceptions.ClientError as e:
+    if e.response['Error']['Code'] == "404":
+        bucket.upload_fileobj(data, 'static/' + filename, ExtraArgs={'ACL': 'public-read'})
 ```
 
 ```
