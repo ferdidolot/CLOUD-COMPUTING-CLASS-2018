@@ -143,4 +143,4 @@ We were trying to find a way to process the images on the fly and send them dire
 
 **Q64: How long have you been working on this session ? What have been the main difficulties you have faced and how have you solved them?**
 
-We have worked on this session 4 hours. There were no main difficulties for this Lab and we use to referer to the documentation for issues we faced. 
+We have worked on this session 4 hours. There were no main difficulties for this Lab and we refer to the documentation for issues we faced. 
