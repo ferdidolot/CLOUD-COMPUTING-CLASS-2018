@@ -6,7 +6,7 @@ We have decided to analyze images from Flickr, by using Flickr API.
 
 In the `environment.sh` file we have define the environment variables like below.
 We have replaced the `YOURFLICKRPUBLIC` and `YOURFLICKRSECRET` with the API public key and secret for our account, to enable authentication.
-Also we have specified the path for our credentials of the Google Cloud Platform.
+Also we have specified the path for our credentials of the Google Cloud Platform and AWS_REGION in order to access our Dynamo DB table.
 
 ```
 flickr_public='YOURFLICKRPUBLIC'
@@ -18,8 +18,12 @@ GOOGLE_APPLICATION_CREDENTIALS='YOURPATHTOGOOGLEVISIONAPI.json'
 
 **Obtain the last 100 images from the profile entered and send the images to Google Cloud Vision**
 
+First, we install Flickr API in our environment using `pip install flickrapi` command. Then, we use `FlickrAPI` to authenticate our application, and use `flickr.photos.search` api to get photo of the associated public profile with json format. We then pass the content of those photos to Google Cloud Vision API and store the result of the tag (will be explained later).
+
 We have analyzed the 100 Flickr photos from the public profile`johnnydeppforever`. The max number of tags that we will retrieve for each
-photo is limited to 5.
+photo is limited to 5. 
+
+The code can be seen as below.
 
 ```
 def get_image():
@@ -63,7 +67,7 @@ if sys.argv[1] == "chart":
 
 **Store all the tags describing the images and the associated probabilities**
 
-We stored the tags and the associated probabilities for each image in Dynamo DB.
+We stored the tags and the associated probabilities for each image in Dynamo DB. We use the same function as the previous lab.
 
 ```
 dynamodb = boto3.resource('dynamodb', region_name=os.environ['AWS_REGION'])
@@ -92,7 +96,7 @@ The interesting part is that we are considering only the tags that have a probab
 So the user can see with an accurancy greater than 70% with what tags are his/her pictures mostly related.
 
 
-To get the tags we have used the following function:
+To get the tags from Dynamo DB we have used the following function:
 ```
 def get_tag():
     response = table.scan(
@@ -104,7 +108,7 @@ def get_tag():
     return None
 ```
 
-To generate the plot we use the following function:
+To generate the plot we use the following function (which has been used for previous lab as well):
 ```
 def generatePlot(count,plotName):
     print(count.most_common(15))
