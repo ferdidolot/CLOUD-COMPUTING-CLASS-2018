@@ -19,7 +19,7 @@ GOOGLE_APPLICATION_CREDENTIALS='YOURPATHTOGOOGLEVISIONAPI.json'``
 We have analyzed the 100 Flickr photos from the public profile "johnnydeppforever". The max number of tags that we will retrieve for each
 photo is limited to 5.
 
-``  def get_image():
+``def get_image():
     count = 0
     service = googleapiclient.discovery.build('vision', 'v1')
     flickr = FlickrAPI(os.environ['flickr_public'], os.environ['flickr_secret'], format='parsed-json')
@@ -48,14 +48,11 @@ photo is limited to 5.
                 print("%s - %.3f" % (result['description'], result['score']))
                 store_tag(count, i['id'], result['description'], result['score'])
 
-            print("\n")
-``
-
+            print("\n")``
 
 **Store all the tags describing the images and the associated probabilities**
 
 We stored the tags and the associated probabilities for each image in Dynamo DB.
-
 
 ``dynamodb = boto3.resource('dynamodb', region_name=os.environ['AWS_REGION'])
 table = dynamodb.Table('lab6-flickr')
@@ -84,12 +81,10 @@ So the user can see with an accurancy greater than 70% what tags are his picture
 
 
 To get the tags we have used the following functions:
-``
-def get_tag():
+``def get_tag():
     response = table.scan(
         ReturnConsumedCapacity='TOTAL',
     )
-
     if response['ResponseMetadata']['HTTPStatusCode'] == 200:
         return response['Items']
     logger.error('Unknown error')
