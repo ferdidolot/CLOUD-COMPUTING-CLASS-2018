@@ -8,10 +8,12 @@ In the `environment.sh` file we have define the environment variables like below
 We have replaced the `YOURFLICKPUBLIC` and `YOURFLICKRSECRET` with the API public key and secret for our account, to enable authentication.
 Also we have specified the path for our credentials of the Google Cloud Platform.
 
-``flickr_public='YOURFLICKRPUBLIC'
+```
+flickr_public='YOURFLICKRPUBLIC'
 flickr_secret='YOURFLICKRSECRET'
 AWS_REGION='YOURAWSREGION'
-GOOGLE_APPLICATION_CREDENTIALS='YOURPATHTOGOOGLEVISIONAPI.json'``
+GOOGLE_APPLICATION_CREDENTIALS='YOURPATHTOGOOGLEVISIONAPI.json'
+```
 
 
 **Obtain the last 100 images from the profile entered and send the images to Google Cloud Vision**
