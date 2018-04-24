@@ -5,7 +5,7 @@
 We have decided to analyze images from Flickr, by using Flickr API.
 
 In the `environment.sh` file we have define the environment variables like below.
-We have replaced the `YOURFLICKPUBLIC` and `YOURFLICKRSECRET` with the API public key and secret for our account, to enable authentication.
+We have replaced the `YOURFLICKRPUBLIC` and `YOURFLICKRSECRET` with the API public key and secret for our account, to enable authentication.
 Also we have specified the path for our credentials of the Google Cloud Platform.
 
 ```
@@ -104,7 +104,7 @@ def get_tag():
     return None
 ```
 
-To generate the plot qe use the following function:
+To generate the plot we use the following function:
 ```
 def generatePlot(count,plotName):
     print(count.most_common(15))
