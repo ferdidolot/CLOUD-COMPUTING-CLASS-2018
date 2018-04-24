@@ -4,9 +4,9 @@
 
 We have decided to analyze images from Flickr, by using Flickr API.
 
-In the `environment.sh` file we have set define the environment variables like below:
+In the `environment.sh` file we have set define the environment variables like below.
 We have replaced the `YOURFLICKPUBLIC` and `YOURFLICKRSECRET` with the API public key and secret for our account, to enable authentication.
-We have also specified the path for our credentials of the Google Cloud Platform.
+Also we have specified the path for our credentials of the Google Cloud Platform.
 
 ``flickr_public='YOURFLICKRPUBLIC'
 flickr_secret='YOURFLICKRSECRET'
@@ -57,7 +57,7 @@ photo is limited to 5.
 We stored the tags and the associated probabilities for each image in Dynamo DB.
 
 
-``  dynamodb = boto3.resource('dynamodb', region_name=os.environ['AWS_REGION'])
+``dynamodb = boto3.resource('dynamodb', region_name=os.environ['AWS_REGION'])
 table = dynamodb.Table('lab6-flickr')
 
 def store_tag(count, img_id, tag, probability):
@@ -141,6 +141,8 @@ The following histogram shows that with an accuracy of 70% the pictures of Johny
 ![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab6_Optional/Lab6_Task6.3_2.png)
 **Q63: What problems have you found developing this section? How did you solve them**
 
+We were trying to find a way to process the images on the fly and send them directly to Google Vision API.
 
-**Q64: How long have you been working on this session (including the optional part)? What have been the main difficulties you have faced and how have you solved them? **
+**Q64: How long have you been working on this session ? What have been the main difficulties you have faced and how have you solved them?**
 
+We have worked in this session 4 hours. 
