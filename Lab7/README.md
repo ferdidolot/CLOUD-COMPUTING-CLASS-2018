@@ -308,7 +308,7 @@ The full code for this section is displayed below:
 
 ```
 
-##Task 7.3: Study the obtained data using the Elastic Stack##
+## Task 7.3: Study the obtained data using the Elastic Stack ##
 
 In this section we have used Elastic Stack and Kibana to analyze the data obtained for movies and actors.
 
@@ -348,10 +348,10 @@ We have configured the environment variables for using Elastic Stack in our PyCh
 ![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab7/Lab7_Task7.3_1.png)
 
 
-**Q73: Take a screenshot of the Kibana Dashboard showing the above plots without filters. Set a couple of filters, take screetshots. Add all the screenshots to the Lab7 folder of your answers repository***
+**Q73: Take a screenshot of the Kibana Dashboard showing the above plots without filters. Set a couple of filters, take screetshots. Add all the screenshots to the Lab7 folder of your answers repository**
 
 
-##What is your question?##
+## What is your question? ##
 
 **Q74: Explain what you have done in the README.md file of the Lab7 folder of your answers repository, add the new plot. Push the code changes to your scrapy-lab repository**
 
