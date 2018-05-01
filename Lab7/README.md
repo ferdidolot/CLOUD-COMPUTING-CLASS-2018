@@ -99,6 +99,7 @@ We have followed the following logic:
 ```
 
 **1. The function `def parse_actor_from_movie(self, response)`**
+
  This function will parse the required information for the movie: `movie_name, movie_id, movie_year` and the required information for the actors that have played in this movie: `actor_id`, `actor_name` and `role_name`.
 After carefully examining the HTML page of IMDb, we have used the following CSS syntax to select the above-mentioned HTML elements:
 
@@ -154,6 +155,7 @@ Each movie will have a list of actors, therefore to select the details for all t
 ```
 
 **2. The function `def parse_next_movie(self, response)`**
+
 This function will parse the movies starting from the actor pages.
 
  * After analyzing the HTML structure of the pages we detected that they use different `id` for actor and actress. Therefore we have covered both cases by using the following piece of code:
@@ -185,7 +187,8 @@ This function will parse the movies starting from the actor pages.
 ```
 
 **3. The function `def parse_actor_bio(self, response)`**
-This function is used to parse actor`s bio details: `birthdate` and `height`
+
+This function is used to parse actor bio details: `birthdate` and `height`
 
 ```
     def parse_actor_bio(self, response):
@@ -207,9 +210,7 @@ This function is used to parse actor`s bio details: `birthdate` and `height`
         yield item
 ```
 
-
-
-
+The full code for this section is displayed below:
 
 
 ```
@@ -306,3 +307,5 @@ This function is used to parse actor`s bio details: `birthdate` and `height`
             yield item
 
 ```
+
+**Task 7.3: Study the obtained data using the Elastic Stack**
