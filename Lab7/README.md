@@ -351,6 +351,13 @@ We have configured the environment variables for using Elastic Stack in our PyCh
 **Q73: Take a screenshot of the Kibana Dashboard showing the above plots without filters. Set a couple of filters, take screetshots. Add all the screenshots to the Lab7 folder of your answers repository**
 
 
+**A tag cloud showing who are the most popular actors for the period. A new record is inserted every time that an actor participates in a movie, therefore, you can count how many records exist for each actor.**
+
+**A bar diagram showing how many actors employ each movie. Take the 50 movies with more actors for the period.**
+
+**A bard diagram showing the filming activity for each year (plot the total count of records per year).**
+
+
 ## What is your question? ##
 
 **Q74: Explain what you have done in the README.md file of the Lab7 folder of your answers repository, add the new plot. Push the code changes to your scrapy-lab repository**
