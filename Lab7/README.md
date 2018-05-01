@@ -11,7 +11,7 @@ We have added a new parser for the articles URLs to extract more data for the ar
 To achieve this, the new function `def parse_article(self, response)` is needed and this function is invoked using `yield response.follow(next_page, callback=self.parse_article)`.
 
 
-``` 
+``` python
     # -*- coding: utf-8 -*-
     import scrapy
     import unidecode
@@ -91,7 +91,7 @@ We have followed the following logic:
 
  We have constructed three functions: `def parse_actor_from_movie(self, response)`, `def parse_next_movie(self, response)` and `def parse_actor_bio(self, response)` and we will explain each of them in details below. After every successful crawl, the `parse` method is called and that is where we invoke the first function `def parse_actor_from_movie(self, response)` by using the following lines of code:
 
-```
+``` python
     def parse(self, response):
     request = scrapy.Request('https://www.imdb.com/title/tt0096463/fullcredits/',
                          callback=self.parse_actor_from_movie)
@@ -106,7 +106,7 @@ After carefully examining the HTML page of IMDb, we have used the following CSS 
 * **Movie details:**
 To select `movie_year` in the appropriate format among the other functions it is also necessary to use `strip()` function to remove ` \t \r \n ` from the beginning and the end of the string.
 
-```
+``` python
     movie_name = response.css('h3[itemprop="name"] a::text').extract_first()
     movie_id = response.css('h3[itemprop="name"] a::attr(href)').extract_first().split("/")[2]
     movie_year = re.sub('\s+', ' ', (response.css('h3[itemprop="name"] span[class="nobr"]::text').extract_first()).strip(' \t \r \n').replace('\n', ' ') ).strip()
@@ -116,7 +116,7 @@ To select `movie_year` in the appropriate format among the other functions it is
 * **Actor details:**
 Each movie will have a list of actors, therefore to select the details for all the actors we use a loop. To select the `role_name` in the appropriate format we again use `strip()` function.
 
-```
+``` python
     for actor in response.css('table.cast_list td[itemprop="actor"] span[class="itemprop"]::text ').extract():
             actor_name_list.append(actor)
 
@@ -132,7 +132,7 @@ Each movie will have a list of actors, therefore to select the details for all t
 
 * We created a dictionary to put all the details for the movies and their actors.
 
-```
+``` python
     item = dict()
 
     item['movie_name'] = movie_name
@@ -145,7 +145,7 @@ Each movie will have a list of actors, therefore to select the details for all t
 ```
 * For each actor we invoke the two other functions to parse actor`s bio and movies where each actor has played.
 
-```
+``` python
     request = scrapy.Request('https://www.imdb.com/name/' + item['actor_id'] + '/bio',
                              callback=self.parse_actor_bio)
     request.meta['item'] = item
@@ -160,7 +160,7 @@ This function will parse the movies starting from the actor pages.
 
  * After analyzing the HTML structure of the pages we detected that they use different `id` for actor and actress. Therefore we have covered both cases by using the following piece of code:
 
-```
+``` python
     noisy_movie_titles_actor = response.css('div[id^="actor"]  b a::attr(href)').extract()
     noisy_movie_titles_actress = response.css('div[id^="actress"]  b a::attr(href)').extract()
     next_movies_id = [];
@@ -176,7 +176,7 @@ This function will parse the movies starting from the actor pages.
 
 * We are concentrated only on the movies filmed during the 80`s
 
-```
+``` python
     for i,j in zip(next_movies_id, next_movies_years) :
         j = j.split('\u2013')[0].strip()
         if int(j) < 1980 or int(j) > 1989:
@@ -190,7 +190,7 @@ This function will parse the movies starting from the actor pages.
 
 This function is used to parse actor bio details: `birthdate` and `height`
 
-```
+``` python
     def parse_actor_bio(self, response):
         birth_date = response.css('td time::attr(datetime)').extract()
         height = response.css('table[id="overviewTable"] td::text' ).extract()
@@ -213,7 +213,7 @@ This function is used to parse actor bio details: `birthdate` and `height`
 The full code for this section is displayed below:
 
 
-```
+``` python
     # -*- coding: utf-8 -*-
     import scrapy
     import re
@@ -315,7 +315,7 @@ In this section we have used Elastic Stack and Kibana to analyze the data obtain
 After setting up the Elastic Stack cloud trial we included the following lines of code in our 'imdb.py' file, to enable inserting records at 'imdb' index which we will recover from Kibana.
 
 
-```
+``` python
     ELASTIC_API_URL_HOST = os.environ['ELASTIC_API_URL_HOST']
     ELASTIC_API_URL_PORT = os.environ['ELASTIC_API_URL_PORT']
     ELASTIC_API_USERNAME = os.environ['ELASTIC_API_USERNAME']
@@ -327,7 +327,7 @@ After setting up the Elastic Stack cloud trial we included the following lines o
                      http_auth=(ELASTIC_API_USERNAME,ELASTIC_API_PASSWORD))
 ```
 
-```
+``` python
     es.index(index='imdb',
          doc_type='movies',
          id=uuid.uuid4(),
