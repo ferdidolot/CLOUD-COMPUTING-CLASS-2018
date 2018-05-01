@@ -103,7 +103,7 @@ We have followed the following logic:
 The function `def parse_actor_from_movie(self, response)` will parse the required information for the movie: `movie_name, movie_id, movie_year` and the required information for the actors that have played in this movie: `actor_id`, `actor_name` and `role_name`.
 After carefully examining the HTML page of IMDb, we have used the following CSS syntax to select the above-mentioned HTML elements:
 
-*Movie details:
+* Movie details:
 To select `movie_year` in the appropriate format among the other function it is also necessary to use `strip()`` function to remove ` \t \r \n ` from the beginning and the end of the string.
 
 ```
@@ -113,7 +113,7 @@ movie_name = response.css('h3[itemprop="name"] a::text').extract_first()
             movie_year = movie_year.replace("(", "").replace(")","").split('\u2013')[0]
 
 ```
-*Actor details:
+* Actor details:
 Each movie will have a list of actors, therefore to select the details for all the actors we use a loop. To select the `role_name` in the appropriate format we again use `strip()` function.
 
 ```
@@ -143,7 +143,7 @@ for actor in response.css('table.cast_list td[itemprop="actor"] span[class="item
     item['role_name'] = temp
 
 ```
-*For each actor we invoke the two other functions to parse actor bio and movies where each actor has played.
+* For each actor we invoke the two other functions to parse actor bio and movies where each actor has played.
 
 ```
     request = scrapy.Request('https://www.imdb.com/name/' + item['actor_id'] + '/bio',
