@@ -8,7 +8,8 @@ Github repository for the scrapy-lab: https://github.com/ferdidolot/scrapy-lab
 Add the nytimes.json, containing the output of your execution, to the Lab7 folder of your answers repository.**
 
 
-``  # -*- coding: utf-8 -*-
+``
+    # -*- coding: utf-8 -*-
     import scrapy
     import unidecode
     import re
@@ -43,3 +44,16 @@ Add the nytimes.json, containing the output of your execution, to the Lab7 folde
             }
 ``
 
+We have also uploaded the `nytimes.json` that was generated after running the above piece of code.
+The structure of this file is:
+
+``
+[
+{"author": "By DAVID E. SANGER and CHOE SANG-HUN ",
+ "article_url": "https://www.nytimes.com/2018/04/26/world/asia/korea-kim-moon-summit.html",
+ "summary": "President Moon Jae-in of South Korea is meeting North Korea's leader, Kim Jong-un, in the Demilitarized Zone. Mr. Kim is the first North Korean leader to set foot in South Korean-controlled territory.",
+ "title": "Korea Talks Begin as Kim Enters South's Side of DMZ",
+ "appears_ulr": "https://www.nytimes.com/"},
+ ...
+ ]
+ ``
