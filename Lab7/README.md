@@ -350,8 +350,20 @@ We have configured the environment variables for using Elastic Stack in our PyCh
 
 **Q73: Take a screenshot of the Kibana Dashboard showing the above plots without filters. Set a couple of filters, take screetshots. Add all the screenshots to the Lab7 folder of your answers repository**
 
+The following printscreen shows the data that we have in Kibana. We let it run for collecting 12794 records
+
+![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab7/Lab7_Task7.3_2.png)
 
 **A tag cloud showing who are the most popular actors for the period. A new record is inserted every time that an actor participates in a movie, therefore, you can count how many records exist for each actor.**
+
+This tag cloud shows the most popular actors (100) of movies filmed during the 80`s (without filters)
+
+![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab7/Lab7_Task7.3_3.png)
+
+This tag cloud shows the most popular actor of 80`s movies that were born during the 40`s. (filtered)
+
+![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab7/Lab7_Task7.3_4.png)
+
 
 **A bar diagram showing how many actors employ each movie. Take the 50 movies with more actors for the period.**
 
