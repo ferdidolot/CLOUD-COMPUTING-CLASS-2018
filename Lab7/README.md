@@ -7,8 +7,8 @@ Github repository for the scrapy-lab: https://github.com/ferdidolot/scrapy-lab
 **Q71: Add the above code to your scrapy-lab repository.
 Add the nytimes.json, containing the output of your execution, to the Lab7 folder of your answers repository.**
 
-We have add a new parser for the articles URLs, using the following code.
-To achieve the new function `def parse_article(self, response)` is needed.
+We have added a new parser for the articles URLs to extract more data for the articles, using the following code.
+To achieve this, the new function `def parse_article(self, response)` is needed and this function is invoked using `yield response.follow(next_page, callback=self.parse_article)`.
 
 
 ``` 
@@ -48,7 +48,7 @@ To achieve the new function `def parse_article(self, response)` is needed.
 ```
 
 We have also uploaded the `nytimes.json` that was generated after running the above piece of code.
-The structure of this file is:
+The structure of this file after adding the new parser is:
 ```
     [
     {"title": "Korea Talks Begin as Kim Jong-un Crosses to South's Side of DMZ",
@@ -62,7 +62,7 @@ The structure of this file is:
 ```
 
 
-and we also have the information for each article in this JSON file:
+and we also have the information for each article in the same JSON file:
 
 ```
     [
@@ -75,5 +75,4 @@ and we also have the information for each article in this JSON file:
      ]
  ```
 
-In order for the content to be consistent it is recommenced to combine the information for an article into a single object (`{ }`), instead of having separate objects, one that displays summary and one that displays content. We have implemented this and will explain this in details for the
-`imbd.json` file in section 7.2.
+In order for the content to be consistent it is recommenced to combine the information for an article into a single object (`{ }`), instead of having separate objects, one that displays summary and another one that displays content. We have implemented this and will explain this in details for the `imbd.json` file in section 7.2.
