@@ -308,4 +308,53 @@ The full code for this section is displayed below:
 
 ```
 
-**Task 7.3: Study the obtained data using the Elastic Stack**
+##Task 7.3: Study the obtained data using the Elastic Stack##
+
+In this section we have used Elastic Stack and Kibana to analyze the data obtained for movies and actors.
+
+After setting up the Elastic Stack cloud trial we included the following lines of code in our 'imdb.py' file, to enable inserting records at 'imdb' index which we will recover from Kibana.
+
+
+```
+    ELASTIC_API_URL_HOST = os.environ['ELASTIC_API_URL_HOST']
+    ELASTIC_API_URL_PORT = os.environ['ELASTIC_API_URL_PORT']
+    ELASTIC_API_USERNAME = os.environ['ELASTIC_API_USERNAME']
+    ELASTIC_API_PASSWORD = os.environ['ELASTIC_API_PASSWORD']
+
+    es=Elasticsearch(host=ELASTIC_API_URL_HOST,
+                     scheme='https',
+                     port=ELASTIC_API_URL_PORT,
+                     http_auth=(ELASTIC_API_USERNAME,ELASTIC_API_PASSWORD))
+```
+
+```
+    es.index(index='imdb',
+         doc_type='movies',
+         id=uuid.uuid4(),
+         body={
+             "movie_id": item['movie_id'],
+             "movie_name": item['movie_name'],
+             "movie_year": item['movie_year'],
+             "actor_name": item['actor_name'],
+             "actor_id": item['actor_id'],
+             "role_name": item['role_name'],
+             "height": item['height'],
+             "birth_date": item['birth_date']
+         })
+```
+
+We have configured the environment variables for using Elastic Stack in our PyCharm, like below:
+
+![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab7/Lab7_Task7.3_1.png)
+
+
+**Q73: Take a screenshot of the Kibana Dashboard showing the above plots without filters. Set a couple of filters, take screetshots. Add all the screenshots to the Lab7 folder of your answers repository***
+
+
+##What is your question?##
+
+**Q74: Explain what you have done in the README.md file of the Lab7 folder of your answers repository, add the new plot. Push the code changes to your scrapy-lab repository**
+
+**Q75: How long have you been working on this session? What have been the main difficulties you have faced and how have you solved them?**
+
+
