@@ -371,7 +371,7 @@ This bar diagram shows the 50 movies with more actors for the period and how man
 
 ![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab7/Lab7_Task7.3_5.png)
 
-TThis bar diagram shows the 50 movies with more actors for the period and how many actors are employed for each movie (filtered)
+This bar diagram shows the 50 movies with more actors  for year 1985 and how many actors are employed for each movie (filtered - year 1985)
 
 ![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab7/Lab7_Task7.3_6.png)
 
