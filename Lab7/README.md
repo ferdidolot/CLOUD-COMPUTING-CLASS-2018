@@ -360,16 +360,26 @@ This tag cloud shows the most popular actors (100) of movies filmed during the 8
 
 ![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab7/Lab7_Task7.3_3.png)
 
-This tag cloud shows the most popular actor of 80`s movies that were born during the 40`s. (filtered)
+This tag cloud shows the most popular actor of 80s movies that were born during the 40s. (filtered)
 
 ![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab7/Lab7_Task7.3_4.png)
 
 
 **A bar diagram showing how many actors employ each movie. Take the 50 movies with more actors for the period.**
 
+This bar diagram shows the 50 movies with more actors for the period and how many actors are employed for each movie (without filters)
+
+![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab7/Lab7_Task7.3_5.png)
+
+TThis bar diagram shows the 50 movies with more actors for the period and how many actors are employed for each movie (filtered)
+
+![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab7/Lab7_Task7.3_6.png)
+
 **A bard diagram showing the filming activity for each year (plot the total count of records per year).**
 
+This bar diagram shows the number of movies for each year (without filters)
 
+![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab7/Lab7_Task7.3_7.png)
 ## What is your question? ##
 
 **Q74: Explain what you have done in the README.md file of the Lab7 folder of your answers repository, add the new plot. Push the code changes to your scrapy-lab repository**
