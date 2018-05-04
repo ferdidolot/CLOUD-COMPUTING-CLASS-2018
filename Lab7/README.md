@@ -143,7 +143,7 @@ Each movie will have a list of actors, therefore to select the details for all t
     item['role_name'] = temp
 
 ```
-* For each actor we invoke the two other functions to parse actor's bio and movies where each actor has played. Notice that we put `request.meta['item'] = item` in order to link the object with the scraping result inside of `parse_actor_bio` function. We will see this part later.
+* For each actor we invoke the two other functions to parse actor's bio and movies where each actor has played. Notice that we put `request.meta['item'] = item` to send pass current item as parameter in call back function, in order to link the object in current page with the target page's result (inside of `parse_actor_bio` callback function). We will see this part later.
 
 ``` python
     request = scrapy.Request('https://www.imdb.com/name/' + item['actor_id'] + '/bio',
@@ -156,7 +156,7 @@ Each movie will have a list of actors, therefore to select the details for all t
 
 **2. The function `def parse_actor_bio(self, response)`**
 
-This function is used to parse actor bio details: `birthdate` and `height`. Notice that we put `respose.meta['item']` into item variable and set the `birthdate` and `height` to this variable. By doing this, we can actually create denormalized object for every required fields we want to capture. 
+This function is used to parse actor bio details: `birthdate` and `height`. Notice that we put the received argument of current item in `respose.meta['item']` into `item` variable and set the `birthdate` and `height` to this variable. By doing this, we can actually create denormalized object for every required fields we want to capture. 
 
 ``` python
     def parse_actor_bio(self, response):
@@ -214,97 +214,102 @@ The full code for this section is displayed below:
 
 
 ``` python
-    # -*- coding: utf-8 -*-
-    import scrapy
-    import re
+# -*- coding: utf-8 -*-
+import scrapy
+import re
 
-    class ImdbSpider(scrapy.Spider):
-        name = 'imdb'
-        allowed_domains = ['www.imdb.com']
-        start_urls = ['https://www.imdb.com/title/tt0096463/fullcredits/']
+pairset = set()
 
-        def parse(self, response):
-            request = scrapy.Request('https://www.imdb.com/title/tt0096463/fullcredits/',
-                                 callback=self.parse_actor_from_movie)
+class ImdbSpider(scrapy.Spider):
+    name = 'imdb'
+    allowed_domains = ['www.imdb.com']
+    start_urls = ['https://www.imdb.com/title/tt0096463/fullcredits/']
+
+    def parse(self, response):
+        request = scrapy.Request('https://www.imdb.com/title/tt0096463/fullcredits/',
+                             callback=self.parse_actor_from_movie)
+        yield request
+
+
+    def parse_actor_from_movie(self, response):
+        actor_name_list = []
+        actor_id_list = []
+
+        movie_name = response.css('h3[itemprop="name"] a::text').extract_first()
+        movie_id = response.css('h3[itemprop="name"] a::attr(href)').extract_first().split("/")[2]
+        movie_year = re.sub('\s+', ' ', (response.css('h3[itemprop="name"] span[class="nobr"]::text').extract_first()).strip(' \t \r \n').replace('\n', ' ') ).strip()
+        movie_year = movie_year.replace("(", "").replace(")","").split('\u2013')[0]
+
+        for actor in response.css('table.cast_list td[itemprop="actor"] span[class="itemprop"]::text ').extract():
+            actor_name_list.append(actor)
+
+        for link in response.css('table.cast_list td[itemprop="actor"] a::attr(href)').extract():
+            actor_id_list.append(link)
+
+        count = 0
+        #for character in response.xpath('//td[@class="character"]//div//text()').extract():
+        for character in response.css('td[class="character"]::text').extract():
+            if character.strip() :
+                if((actor_id_list[count].split("/")[2], movie_id) in pairset):
+                    print("actor and movie existed")
+                    continue
+                temp = re.sub( '\s+', ' ', character.strip(' \t \r \n').replace('\n', ' ') ).strip()
+                item = dict()
+
+                item['movie_name'] = movie_name
+                item['movie_id'] = movie_id
+                item['movie_year'] = movie_year
+                item['actor_id'] = actor_id_list[count].split("/")[2]
+                item['actor_name'] = actor_name_list[count]
+                item['role_name'] = temp
+
+                request = scrapy.Request('https://www.imdb.com/name/' + item['actor_id'] + '/bio',
+                                         callback=self.parse_actor_bio)
+                request.meta['item'] = item
+                yield request
+                request2 = scrapy.Request('https://www.imdb.com/name/' + item['actor_id'] + '/', callback=self.parse_next_movie)
+                yield request2
+                count = count + 1
+
+    def parse_next_movie(self, response):
+        noisy_movie_titles_actor = response.css('div[id^="actor"]  b a::attr(href)').extract()
+        noisy_movie_titles_actress = response.css('div[id^="actress"]  b a::attr(href)').extract()
+
+        next_movies_id = [];
+        next_movies_years = []
+
+        if noisy_movie_titles_actor:
+            next_movies_id= [i.split("/")[2] for i in noisy_movie_titles_actor]
+            next_movies_years = response.css('div[id^="actor"]  span::text').extract()
+        elif noisy_movie_titles_actress:
+            next_movies_id = [i.split("/")[2] for i in noisy_movie_titles_actress]
+            next_movies_years = response.css('div[id^="actress"]  span::text').extract()
+
+        for i,j in zip(next_movies_id, next_movies_years) :
+            j = j.split('\u2013')[0].strip()
+            if int(j) < 1980 or int(j) > 1989:
+                continue
+            request = scrapy.Request('https://www.imdb.com/title/'+ i +'/fullcredits/',
+                                     callback=self.parse_actor_from_movie)
             yield request
 
+    def parse_actor_bio(self, response):
+        birth_date = response.css('td time::attr(datetime)').extract()
+        height = response.css('table[id="overviewTable"] td::text' ).extract()
+        if height:
+            height = height[-1].strip()
+        else:
+            height = ""
+        if not any(char.isdigit() for char in height):
+            height = ""
+        item = response.meta['item']
+        if birth_date:
+            item['birth_date'] = birth_date[0]
+        else:
+            item['birth_date'] = ""
+        item['height'] = height
 
-        def parse_actor_from_movie(self, response):
-            actor_name_list = []
-            actor_id_list = []
-
-            movie_name = response.css('h3[itemprop="name"] a::text').extract_first()
-            movie_id = response.css('h3[itemprop="name"] a::attr(href)').extract_first().split("/")[2]
-            movie_year = re.sub('\s+', ' ', (response.css('h3[itemprop="name"] span[class="nobr"]::text').extract_first()).strip(' \t \r \n').replace('\n', ' ') ).strip()
-            movie_year = movie_year.replace("(", "").replace(")","").split('\u2013')[0]
-
-            for actor in response.css('table.cast_list td[itemprop="actor"] span[class="itemprop"]::text ').extract():
-                actor_name_list.append(actor)
-
-            for link in response.css('table.cast_list td[itemprop="actor"] a::attr(href)').extract():
-                actor_id_list.append(link)
-
-            count = 0
-            #for character in response.xpath('//td[@class="character"]//div//text()').extract():
-            for character in response.css('td[class="character"]::text').extract():
-                if character.strip() :
-                    temp = re.sub( '\s+', ' ', character.strip(' \t \r \n').replace('\n', ' ') ).strip()
-                    item = dict()
-
-                    item['movie_name'] = movie_name
-                    item['movie_id'] = movie_id
-                    item['movie_year'] = movie_year
-                    item['actor_id'] = actor_id_list[count].split("/")[2]
-                    item['actor_name'] = actor_name_list[count]
-                    item['role_name'] = temp
-
-                    request = scrapy.Request('https://www.imdb.com/name/' + item['actor_id'] + '/bio',
-                                             callback=self.parse_actor_bio)
-                    request.meta['item'] = item
-                    yield request
-                    request2 = scrapy.Request('https://www.imdb.com/name/' + item['actor_id'] + '/', callback=self.parse_next_movie)
-                    yield request2
-                    count = count + 1
-
-        def parse_next_movie(self, response):
-            noisy_movie_titles_actor = response.css('div[id^="actor"]  b a::attr(href)').extract()
-            noisy_movie_titles_actress = response.css('div[id^="actress"]  b a::attr(href)').extract()
-
-            next_movies_id = [];
-            next_movies_years = []
-
-            if noisy_movie_titles_actor:
-                next_movies_id= [i.split("/")[2] for i in noisy_movie_titles_actor]
-                next_movies_years = response.css('div[id^="actor"]  span::text').extract()
-            elif noisy_movie_titles_actress:
-                next_movies_id = [i.split("/")[2] for i in noisy_movie_titles_actress]
-                next_movies_years = response.css('div[id^="actress"]  span::text').extract()
-
-            for i,j in zip(next_movies_id, next_movies_years) :
-                j = j.split('\u2013')[0].strip()
-                if int(j) < 1980 or int(j) > 1989:
-                    continue
-                request = scrapy.Request('https://www.imdb.com/title/'+ i +'/fullcredits/',
-                                         callback=self.parse_actor_from_movie)
-                yield request
-
-        def parse_actor_bio(self, response):
-            birth_date = response.css('td time::attr(datetime)').extract()
-            height = response.css('table[id="overviewTable"] td::text' ).extract()
-            if height:
-                height = height[-1].strip()
-            else:
-                height = ""
-            if not any(char.isdigit() for char in height):
-                height = ""
-            item = response.meta['item']
-            if birth_date:
-                item['birth_date'] = birth_date[0]
-            else:
-                item['birth_date'] = ""
-            item['height'] = height
-
-            yield item
+        yield item
 
 ```
 
@@ -406,11 +411,11 @@ Figure below show the distribution of actors which at least has 1 spouse.
 ![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab7/Lab7_Task7.4_4.png)
 
 **Q75: How long have you been working on this session? What have been the main difficulties you have faced and how have you solved them?**
-We have worked the session for around 24 hours in total. List below shows the main difficulties that we faced.
+We have worked the session for around 30 hours in total. List below shows the main difficulties that we faced.
 
-* Getting the right css match parsing is quite troublesome because lack of standard id and class naming. It makes the data pretty dirty and we have to do proper data cleansing to make the data looks reasonable.
-* HTML tag was changed sometimes. We have to redifne our parsing for that part.
-* Data cleansing is pretty difficult, we spent a lot of effort to learn how to clean the data by using some regular expression.
-* Create a denormalized records by using scrapy also required some effort.
-* Take sometime to be able to create appropriate field type in elasticsearch and kibana, especially for numbers (for aggregation purposes). Elasticsearch and kibana will automatically detect the type and we can not really change the type intuitively, so we have to really define it from the code when submitting the data to elasticsearch.
-
+* **Element parsing**: Getting the right css match parsing is quite troublesome because lack of standard id and class naming. It makes the data pretty dirty and we have to do proper data cleansing to make the data looks reasonable.
+* **Element parsing**: HTML tag was changed sometimes. We have to redifne our parsing.
+* **Data cleansing** is pretty difficult to perform, we spent a lot of effort to learn how to clean the data by using some python functions (strip) and regular expression.
+* **Scrapy data:** Create a denormalized records by using scrapy also required some effort and exploration in scrapy documentation. We have learned how to merge result from target link to current link using request and response meta parameter (https://doc.scrapy.org/en/latest/topics/request-response.html). 
+* **Elasticsearch and Kibana**: It takes sometime to be able to create appropriate field type in Elasticsearch and Kibana, especially for numbers (for aggregation purposes). Elasticsearch and kibana will automatically detect the type and we can not really change the type intuitively, so we have to really define it from the code when submitting the data to elasticsearch.
+* **Overall scraping flow consideration (most important point):** Consider that our imdb model is a graph that has nodes: Movie and Actor. Starting from one movie, it is an ideal scenario to scrap every actor of this movie, and go through the next movie of every actor. By doing this, we can actually get every actors' information in each movie. We consider this as **breadth first search (BFS)** approach. Initially, we were trying to develop this mechanism by storing each result in queue, and iterate over it. But since we have found out that scrapy **spawns request in asynchronous manner**, we can not perform BFS to the graph. This behavior triggers **depth first search (DFS)** approach to explore the graph and will give result of **highly variated movie with uncomplete set of actor** since **after exploring one actor's bio**, we will scrap the **next movie** of this actor **instead of continuing to scrap every actor information in that movie**. In addition, it also causes the graph to have possibility of **duplication in actor and movie**. In this case, we have implemented a **set** which contains pair of movie and actor, in which after our request finish and before storing the data, we first conduct a **check in the set** by executing `if((actor_id_list[count].split("/")[2], movie_id) in pairset)`, if this boolean returns true, we have to skip this record since **it has been stored before**. We don't see any other workaround to avoid this problem other than creating set. This can be a trade off because the number of consumed memory will be increasing throughout the run time to keep all the past records for the sake of duplicate checking.
