@@ -75,7 +75,7 @@ and we also have the information for each article in the same JSON file:
      ]
  ```
 
-In order for the content to be consistent it is recommenced to combine the information for an article into a single object    (`{ }`), instead of having separate objects, one that displays summary and another one that displays content. We have implemented this and we will explain it in details for the `imbd.json` file in section 7.2.
+In order for the content to be consistent it is recommenced to combine the information for an article into a single object    (`{ }`), instead of having separate objects, one that displays summary and another one that displays content. We have implemented this for the next task and we will explain it in details for the `imbd.json` file in section 7.2.
 
 
 ## Task 7.2: Obtain a subset of the movie industry to do some research ##
@@ -89,7 +89,7 @@ We have followed the following logic:
  * We continued scraping other movies using the pages of each actor.
  * We also scraped actor`s bio pages to collect some personal data about them (birthdate, height)
 
- We have constructed three functions: `def parse_actor_from_movie(self, response)`, `def parse_next_movie(self, response)` and `def parse_actor_bio(self, response)` and we will explain each of them in details below. After every successful crawl, the `parse` method is called and that is where we invoke the first function `def parse_actor_from_movie(self, response)` by using the following lines of code:
+ We have constructed three functions: `def parse_actor_from_movie(self, response)`, `def parse_next_movie(self, response)` and `def parse_actor_bio(self, response)` and we will explain each of them in details below. Firstly, `parse` method is called and that is where we invoke the first function `def parse_actor_from_movie(self, response)` by using the following lines of code:
 
 ``` python
     def parse(self, response):
@@ -104,7 +104,7 @@ We have followed the following logic:
 After carefully examining the HTML page of IMDb, we have used the following CSS syntax to select the above-mentioned HTML elements:
 
 * **Movie details:**
-To select `movie_year` in the appropriate format among the other functions it is also necessary to use `strip()` function to remove ` \t \r \n ` from the beginning and the end of the string.
+To select `movie_year` in the appropriate format among the other functions it is also necessary to use regex `re` and `strip()` function to remove trailing spaces and line separator from the beginning and the end of the string.
 
 ``` python
     movie_name = response.css('h3[itemprop="name"] a::text').extract_first()
@@ -114,10 +114,10 @@ To select `movie_year` in the appropriate format among the other functions it is
 
 ```
 * **Actor details:**
-Each movie will have a list of actors, therefore to select the details for all the actors we use a loop. To select the `role_name` in the appropriate format we again use `strip()` function.
+Each movie will have a list of actors, therefore to select the details for all the actors we use a loop. In order to get the detail of actor name and id, we have to do it separately to match the css tag for both of them, and make sure each actor name and id is within the same index of list, and the same for role name. That way, we can iterate through them to put them into the same object. Note that to select the `role_name` in the appropriate format we again use regex `re` and `strip()` function.
 
 ``` python
-    for actor in response.css('table.cast_list td[itemprop="actor"] span[class="itemprop"]::text ').extract():
+        for actor in response.css('table.cast_list td[itemprop="actor"] span[class="itemprop"]::text ').extract():
             actor_name_list.append(actor)
 
         for link in response.css('table.cast_list td[itemprop="actor"] a::attr(href)').extract():
@@ -143,7 +143,7 @@ Each movie will have a list of actors, therefore to select the details for all t
     item['role_name'] = temp
 
 ```
-* For each actor we invoke the two other functions to parse actor`s bio and movies where each actor has played.
+* For each actor we invoke the two other functions to parse actor's bio and movies where each actor has played. Notice that we put `request.meta['item'] = item` in order to link the object with the scraping result inside of `parse_actor_bio` function. We will see this part later.
 
 ``` python
     request = scrapy.Request('https://www.imdb.com/name/' + item['actor_id'] + '/bio',
@@ -154,41 +154,9 @@ Each movie will have a list of actors, therefore to select the details for all t
     yield request2
 ```
 
-**2. The function `def parse_next_movie(self, response)`**
+**2. The function `def parse_actor_bio(self, response)`**
 
-This function will parse the movies starting from the actor pages.
-
- * After analyzing the HTML structure of the pages we detected that they use different `id` for actor and actress. Therefore we have covered both cases by using the following piece of code:
-
-``` python
-    noisy_movie_titles_actor = response.css('div[id^="actor"]  b a::attr(href)').extract()
-    noisy_movie_titles_actress = response.css('div[id^="actress"]  b a::attr(href)').extract()
-    next_movies_id = [];
-    next_movies_years = []
-
-    if noisy_movie_titles_actor:
-        next_movies_id= [i.split("/")[2] for i in noisy_movie_titles_actor]
-        next_movies_years = response.css('div[id^="actor"]  span::text').extract()
-    elif noisy_movie_titles_actress:
-        next_movies_id = [i.split("/")[2] for i in noisy_movie_titles_actress]
-        next_movies_years = response.css('div[id^="actress"]  span::text').extract()
-```
-
-* We are concentrated only on the movies filmed during the 80`s
-
-``` python
-    for i,j in zip(next_movies_id, next_movies_years) :
-        j = j.split('\u2013')[0].strip()
-        if int(j) < 1980 or int(j) > 1989:
-            continue
-        request = scrapy.Request('https://www.imdb.com/title/'+ i +'/fullcredits/',
-                                 callback=self.parse_actor_from_movie)
-        yield request
-```
-
-**3. The function `def parse_actor_bio(self, response)`**
-
-This function is used to parse actor bio details: `birthdate` and `height`
+This function is used to parse actor bio details: `birthdate` and `height`. Notice that we put `respose.meta['item']` into item variable and set the `birthdate` and `height` to this variable. By doing this, we can actually create denormalized object for every required fields we want to capture. 
 
 ``` python
     def parse_actor_bio(self, response):
@@ -208,6 +176,38 @@ This function is used to parse actor bio details: `birthdate` and `height`
         item['height'] = height
 
         yield item
+```
+
+**3. The function `def parse_next_movie(self, response)`**
+
+After we finally got all of required movie and actor information, we will continue to scrap another movie from the selected actor. 
+
+ * After analyzing the HTML structure of the pages we detected that they use different `id` for actor and actress. Therefore we have covered both cases by using the following piece of code:
+
+``` python
+    noisy_movie_titles_actor = response.css('div[id^="actor"]  b a::attr(href)').extract()
+    noisy_movie_titles_actress = response.css('div[id^="actress"]  b a::attr(href)').extract()
+    next_movies_id = [];
+    next_movies_years = []
+
+    if noisy_movie_titles_actor:
+        next_movies_id= [i.split("/")[2] for i in noisy_movie_titles_actor]
+        next_movies_years = response.css('div[id^="actor"]  span::text').extract()
+    elif noisy_movie_titles_actress:
+        next_movies_id = [i.split("/")[2] for i in noisy_movie_titles_actress]
+        next_movies_years = response.css('div[id^="actress"]  span::text').extract()
+```
+
+* We did some cleansing of movie years since sometimes it shows range of year instead of one single year (we split it by unicode character `\u2013` which is a dash). We are concentrated only on the movies filmed during the 80's. 
+
+``` python
+    for i,j in zip(next_movies_id, next_movies_years) :
+        j = j.split('\u2013')[0].strip()
+        if int(j) < 1980 or int(j) > 1989:
+            continue
+        request = scrapy.Request('https://www.imdb.com/title/'+ i +'/fullcredits/',
+                                 callback=self.parse_actor_from_movie)
+        yield request
 ```
 
 The full code for this section is displayed below:
@@ -377,12 +377,14 @@ This bar diagram shows the 50 movies with more actors  for year 1985 and how man
 
 **A bard diagram showing the filming activity for each year (plot the total count of records per year).**
 
-This bar diagram shows the number of movies for each year (without filters)
+This bar diagram shows the number of movies for each year (without filters). In this final diagram, we couldn't think any case of using filter since we can not really filter on actor and movie title attributes because the result will be very specific to that user or movie.
 
 ![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab7/Lab7_Task7.3_7.png)
 ## What is your question? ##
 
 **Q74: Explain what you have done in the README.md file of the Lab7 folder of your answers repository, add the new plot. Push the code changes to your scrapy-lab repository**
+
+
 
 **Q75: How long have you been working on this session? What have been the main difficulties you have faced and how have you solved them?**
 
