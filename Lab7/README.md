@@ -384,8 +384,33 @@ This bar diagram shows the number of movies for each year (without filters). In 
 
 **Q74: Explain what you have done in the README.md file of the Lab7 folder of your answers repository, add the new plot. Push the code changes to your scrapy-lab repository**
 
+We were trying to see how is the distribution of number of spouse that the actors have. In order to do this, we have made changes to our code as following:
+```python
+        spouse = 0
 
+        for s in response.css('h4[class="li_group"]::text').extract():
+            if s.find("Spouse") != -1:
+                spouse = int(s[s.find("(")+1:s.find(")")])
+```
+
+It is important to define type conversion to int so that in kibana, it will recognize this field as a number, hence will allow us to perform aggregation operation for this field. The result of our investigation is as following.
+
+Figure below shows first 20 actors' number of spouses. 
+![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab7/Lab7_Task7.4_2.png)
+
+We are also interested to see the distribution of number of spouse. 
+![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab7/Lab7_Task7.4_3.png)
+We realized that there is a big number actors which has zero spouse. After doing investigation, we concluded that IMDB doesn't have complete information for most actors that played in 80's movies except for famous actor, this information includes spouse information.  From our result, only around 20% of the actor data has spouse information, ranged from 1 to 5. 
+
+Figure below show the distribution of actors which at least has 1 spouse. 
+![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab7/Lab7_Task7.4_4.png)
 
 **Q75: How long have you been working on this session? What have been the main difficulties you have faced and how have you solved them?**
+We have worked the session for around 24 hours in total. List below shows the main difficulties that we faced.
 
+* Getting the right css match parsing is quite troublesome because lack of standard id and class naming. It makes the data pretty dirty and we have to do proper data cleansing to make the data looks reasonable.
+* HTML tag was changed sometimes. We have to redifne our parsing for that part.
+* Data cleansing is pretty difficult, we spent a lot of effort to learn how to clean the data by using some regular expression.
+* Create a denormalized records by using scrapy also required some effort.
+* Take sometime to be able to create appropriate field type in elasticsearch and kibana, especially for numbers (for aggregation purposes). Elasticsearch and kibana will automatically detect the type and we can not really change the type intuitively, so we have to really define it from the code when submitting the data to elasticsearch.
 
