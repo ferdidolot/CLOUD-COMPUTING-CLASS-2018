@@ -259,17 +259,19 @@ The figures below shows the EC2 web management console.
 
 ![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Research-topic/vagrant-aws-3.PNG)
 
-### Vagrant plugin installation issues ###
+### Vagrant AWS plugin installation issues ###
 
 **Trigger**: after executing command
 ```
 vagrant plugin install vagrant-aws
 ```
 
-**Error message** :/usr/lib/ruby/2.3.0/rubygems/specification.rb:946:in \`all=': undefined method \`group_by\' for nil:NilClass (NoMethodError)
+**Error message**: 
+```
+/usr/lib/ruby/2.3.0/rubygems/specification.rb:946:in \`all=': undefined method \`group_by\' for nil:NilClass (NoMethodError)
+```
 
-
-**Fix**: create file vagrant-plugin.patch with the following contents:
+**Fix**: create file `vagrant-plugin.patch` with the following contents:
 ```
 ---
  lib/vagrant/bundler.rb | 3 ++-
@@ -297,11 +299,10 @@ index 5a5c185..c4a3837 100644
    	Gem::DefaultUserInteraction.use_ui(Gem::SilentUI.new) do
  	return yield
   ```
-**Apply patch**
+**Apply patch** 
 
 ```
 sudo patch --directory /usr/lib/ruby/vendor_ruby/vagrant < vagrant-plugin.patch
-
 ```
 We have seen that Vagrant can also be used in AWS environment and will provide easier configuration management to our cloud environment. We can also apply the same method for other cloud providers.
 
@@ -316,6 +317,8 @@ We have seen that Vagrant can also be used in AWS environment and will provide e
 [Vagrant: Up and Running](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=0ahUKEwiX9eiPmfbaAhUmh6YKHUCSA18QFggoMAA&url=https%3A%2F%2Fisidore.co%2Fcalibre%2Fget%2Fpdf%2F5829&usg=AOvVaw23jSL6pU_Ik2iGUIhTphlf)
 
 [Pro-Vagrant](http://pepa.holla.cz/wp-content/uploads/2016/10/Pro-Vagrant.pdf)
+
+[Vagrant AWS plugin installation issue's solution](https://stackoverflow.com/questions/36811863/cant-install-vagrant-plugins-in-ubuntu/36991648)
 
 ## To learn more ##
 
