@@ -1,1 +1,114 @@
 
+# Introduction to Vagrant #
+
+Today\`s IT enterprise is always looking for the latest technology that allow businesses to run with fewer resources and to use them in efficient way while providing the infrastructure to meet customer needs. The growing awareness of the advantages provided by virtualization technology has turned it in one of the most important issue of the computing industry. However, working with virtual development environments require a lot of manual work and configurations and today's modern applications have a lot of moving parts, technologies to choose from and a lot more overall complexity. Hence, automation tools like Vagrant have gained quite wide popularity and have outclassed the traditional approaches.
+
+Vagrant is a set of tools that attempts to make it easier to build and manage virtual machines through a simple and uniform command-line interface. Furthermore, Vagrant facilitates sharing and distributing virtual development environments between teams and people working on different platforms. Specifically, it helps to create and configure lightweight, reproducible and portable deployment environment.[1] It was originally authored by Mitchell Hashimoto and it is an open source software distributed under an MIT license. The source code of Vagrant is available at https://github.com/mitchellh/vagrant.
+
+Apart from the virtualization solution, the programming language, the framework and the operating system used, Vagrant creates the complete deployment environment with just one simple command: $ vagrant up.  Vagrant is a Swiss Army knife for development environments. It automates all the necessary tasks to run the virtual development environment, from downloading, installing and booting the VM (it supports all major virtual solutions: VirtualBox, VMWare, and Hyper-V) to configuring various resources (RAM, CPUs, network connections and shared folders) and installing additional software within the VM by using software configuration tools such as Ansible, Chef, Puppet, and Salt.
+
+Prior to Vagrant, the preferred method of working on a web application was to install and configure all the needed software locally on the development machine. Everything must be installed manually by the developers and once the software is installed it has to be configured manually as well. Manual setup of development environment can lead to a difference between development and production as there might be functionalities that works in development but doesn't work the same in production. It is also easy for the development environments to get out of sync, as each developer is responsible for managing its own environment. This creates difficulties in keeping the environment in sync with other team members and especially it creates confusion for new team members. Furthermore in the traditional approach it is difficult to manage multiple projects, as each project requires different configuration of their services and usually the developers end up having a system with poorly configured dependencies or a system that is running a lot of services that individual applications may not need. 
+
+In a world with Vagrant, although the application is executed in the developer’s machine, they are no longer responsible for the installation of the server-side software. The developers can simply run vagrant up and have a fully running development environment up and ready in one or two minutes. Even though this time depends on many factors, Vagrant dramatically reduces the amount of time needed to rebuild the development environment. System engineers are responsible for preparing and configuring server-side software, whereas the developers simply use the prefabricated VMs that they may treat as a black box. As Vagrant behaves identically across different operating systems (Linux, Mac OS and Windows), the developers can work on the operating system they feel more productive on. It is also easier to work with a team as the VM images can be shared without efforts. Furthermore, working with multiple projects is also facilitated because each project has it own virtual machine. Moreover Vagrant\`s features can be extended with plug-ins if it is necessary and if there is something Vagrant cannot do with the development environment.
+
+In summary, as a layer on top of existing and well-known virtualization solutions, Vagrant is a useful tool to manage the complexity of virtual machines. Although it is possible to achieve what Vagrant does with only plain desktop virtualization, there is a major downside of this approach: it would be completely manual. 
+
+
+# Configuring the development environment #
+
+In this section we will go through the basic type of  environment with a single Vagrant virtual machine.
+
+## Setting up the development environment ##
+
+Setting up a working environment is the most important step before using Vagrant. Despite the operating system that is used, to start exploring Vagrant it is needed to install a provider software and the Vagrant software itself.
+
+Firstly, it is necessary to install the software to manage the VM environment (hypervisor/ provider). These providers are the “back end of Vagrant”. Vagrant  does not provide any virtualization functionality itself but it sits on top of existing virtualization solutions. Initially, the only hypervisor supported by Vagrant was VirtualBox. Nowadays, they also offer support for the other hypervisors like VMware Fusion, Hyper-V and vCloud Air, but Vagrant community is still broadly supporting VirtualBox (https://www.virtualbox.org) as an open source and freely available provider. In addition Vagrant offer an official VMware provider(https://www.vagrantup.com/vmware/). The choice of supervisor is very important when working with Vagrant because errors encounters when using Vagrant environment are not only related to vagrant itself but also to the hypervisor application. After deciding which supervisor to use, they can be downloaded at their corresponding official website and installed depending on the operating system. 
+
+The next step is installing Vagrant software itself. After selecting the appropriate version for your operating system, a copy of the latest version of the Vagrant installer can be downloaded from the Vagrant website (https://www.vagrantup.com/downloads.html).  
+
+To set up the environment in Ubuntu Linux Environment, using VirtualBox provider the following steps should be followed:
+```
+sudo apt-get install virtualbox
+sudo apt-get install vagrant
+```
+
+## Vagrant components ##
+
+Once we have a working environment, we can start using Vagrant. But before starting exploring it, it is reasonable to briefly introduce the main components of Vagrant: providers, Vagrantfile, boxes and plugin. We described providers shortly in the previous section.
+
+VagrantFile is a special file that contains the information that Vagrant requires to create the environment. The instructions  are expressed in Vagrant\`s DSL (Ruby) and they define how the environment would look like including: the number and the type of VMs, how they interact with the outside world and how the software is installed on these VMs. A powerful technique to manage and track changes in Vagrant environment is to keep Vagrantfiles and projects in a source control system (e.g. Git, SVN).  By using these source code repositories, the modification of the projects  will be less risky and the sharing of Vagrant projects will be much simpler.   
+
+Boxes are precreated base image of operating system that are used by Vagrant to build the development environment and to run provisioning on top of it. To avoid building a virtual machine from scratch (time-consuming and resource-intensive) Vagrant use the predefined base image and clones it, to rapidly create a usable machine. These snapshotted base images can help for optimization process; several base applications can be pre installed in image so that we can minimize the provisioning process in Vagrant. Vagrant saves the downloaded box file for future usage to avoid downloading them again as they are quite large due to already-installed operating systems that they contain. When we configure Vagrantfile, we have to define the box that we are going to use, as illustrated in the end of this section. If the box specified on Vagrantfile could not be found during the runtime, vagrant will automatically download the required box. Other approach would be to add vagrant box manually before running vagrant up command. This can be done by executing: 
+```
+vagrant box add <box-address>
+```
+While box address is referring either to one of these three: 
+A shorthand name of public catalog of available Vagrant images, for example: "hashicorp/precise64".
+A URL to a box in a catalog. 
+Direct URL to a box file.
+
+Another approach would be adding the shorthand name of public catalog of available vagrant images in Vagrantfile as specified on config.vm.box parameter shown below:
+```
+config.vm.box = "hashicorp/precise64"
+```
+
+We will see this part later when we want to launch our first Vagrantfile configuration. 
+
+Plugin is used to designate new commands and configurations in Vagrantfile, that will extend the feature and functionality of the use case. For example, vagrant was not built to specialize in cloud architecture, especially with huge amount of cloud providers nowadays. With the existence of vagrant plugin, we can remotely manage our architecture and configuration in cloud using vagrant file integrated with cloud service provider. There are also another use case of plugin development such as networking, provisioning, and some other items that can be seen at https://github.com/hashicorp/vagrant/wiki/Available-Vagrant-Plugins.
+
+There are two ways to install vagrant plugin, first one is installing vagrant plugin from a known gem source, and the second one is installing vagrant plugin from our local file source. For the first one, user can just specify the plugin name on the last parameter of vagrant command execution, while for the second, user need to define the path for .gem file residing on the local file system. Shell commands for both can be seen as follow.
+```
+# use plugin name
+vagrant plugin install plugin-name
+```
+```
+# use local .gem file
+vagrant plugin install /path/to/my-plugin.gem
+```
+
+This elasticity allows vagrant to adapt with current trends in software development automation process easily. We will discuss more about cloud service provider plugin, specifically for Amazon Web Services (AWS) in the next section to see the actual implementation of having vagrant on the cloud.
+
+## Initializing the development environment ##
+
+Running vagrant is quite simple. First, by using vagrant version command, we can verify that Vagrant is successfully installed and can continue with initializing the development environment and interacting with it. In Ubuntu Linux Environment, the following commands should be executed:
+
+vagrant init precise64 http://files.vagrantup.com/precise64.box
+vagrant up
+The first command informs the user that a new Vagrantfile is created in the current directory.  Up to this point Vagrant environment is provisioned using a single box, but to use different operating systems and operating environment, the user need to obtain different Vagrant boxes. VagrantCloud (https://app.vagrantup.com/boxes/search) can be used to find Vagrant boxes. 
+The output of the first command indicates that we are ready to run the second: vagrant up.  Some of the most important results outputted by the second command are: a status message showing that the default machine is being started with the provider chosen; a message indicating the forwarding ports, shared folders and networking (after the box file is downloaded and started). 
+
+After these two commands finish running, a fully featured virtual machine will be running in the background. The user can execute vagrant ssh to access this machine. A command-line interface will be opened in the new virtual machine and the user can make all the modification that he/she wants: from creating files to installing programs. Once finished with the environment, the user can decide to stop the machine and keep the environment available for later use by executing vagrant halt or can decide to destroy the machine and discard the entire working environment by executing vagrant destroy.
+
+The initial Vagrantfile contains only basic configuration related with the Vagrant environment itself and the box that serves as the base template of the environment.  The basic unit of a Vagrantfile is a configuration object, which represents a virtual machine. Therefore, the operations added on the configuration will define the operation of the machine. The first line starts a block of Vagrant configuration and each Vagrantfile requires at least one configuration.  The second line defines the box that we are going to use.
+
+```
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+Vagrant.configure(2) do |config|
+  config.vm.box = "precise64"
+  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
+End
+```
+
+There are also two more important elements that should be taken into consideration when working with Vagrant machines: sharing the files with the machine and communicating with the machine over the network. 
+To ensure synchronization between the virtual machine and the host machine, Vagrant supports setting up shared folders. Having a shared file system enable developers edit files using their own editor on the host machine and have everything automatically synchronized in the virtual development environment. This filesystem also give them a place to store files that will not be destroyed from vagrant destroy and will be available the next time a machine is created using vagrant up. By default, Vagrant shares the project directory (the directory where Vagrantfile is) of the host machine with the /vagrant directory inside the virtual machine. By using config.vm.share_folder directive in Vagrantfile we can overwrite the location of the default share folder. The configuration below, shows that the virtual machine will have /data directory synced with ./data   directory on the host machine. 
+
+```
+Vagrant.configure(2) do |config|
+  ...
+  config.vm.share_folder "data", "/data", "./data"
+End
+```
+In the same way, Vagrant automatically configures different options for communicating with the virtual machine.. This is especially important for web projects, because while the project code and all of its dependencies run isolated within the virtual machine, the developers can continue using their own browsers and development tools to access their project. There exist a large number of ways this communication can be configured and in this report we will only go through forwarded ports. By using config.vm.forward_port directive in Vagrantfile we can forward port 80 on the virtual machine to port 8080 on the host machine. 
+
+```
+Vagrant.configure(2) do |config|
+  ...
+  config.vm.forward_port 80, 8080
+End
+```
+
+To sum up, Vagrant has a very simple workflow. By just using vagrant up, vagrant ssh, vagrant destroy, users can simply manage their development environments. Moreover, even though the syntax of Vagrantfile is in Ruby, no Ruby-specific knowledge is necessary since the Vagrantfile is composed only of variable assignment, function calls and configuration blocks. In addition,  shared folders and forwarded ports enables developers to continue using the development tools they are more comfortable and efficient with.
+
+
+
