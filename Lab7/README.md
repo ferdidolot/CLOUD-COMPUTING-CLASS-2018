@@ -380,7 +380,7 @@ This bar diagram shows the 50 movies with more actors  for year 1985 and how man
 
 ![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Lab7/Lab7_Task7.3_6.png)
 
-**A bard diagram showing the filming activity for each year (plot the total count of records per year).**
+**A bar diagram showing the filming activity for each year (plot the total count of records per year).**
 
 This bar diagram shows the number of movies for each year (without filters). In this final diagram, we couldn't think any case of using filter since we can not really filter on actor and movie title attributes because the result will be very specific to that user or movie.
 
