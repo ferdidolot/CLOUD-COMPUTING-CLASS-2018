@@ -249,13 +249,13 @@ There are several AWS parameters that are normally defined in Vagrantfile, such 
 Complete configuration can be seen on https://github.com/mitchellh/vagrant-aws. AWS Vagrant plugin then pass this information to AWS, the same as we are opening AWS web console, and creates the VM accordingly to the information we set. 
 
 
-The figures below shows setting up the development environment in our AWS 
+The figures below shows setting up the development environment in our AWS.
 
 ![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Research-topic/vagrant-aws-1.PNG)
 
 ![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Research-topic/vagrant-aws-2.PNG)
 
-The figures below shows the EC2 web management console
+The figures below shows the EC2 web management console.
 
 ![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Research-topic/vagrant-aws-3.PNG)
 
@@ -302,9 +302,9 @@ index 5a5c185..c4a3837 100644
 ```
 sudo patch --directory /usr/lib/ruby/vendor_ruby/vagrant < vagrant-plugin.patch
 
-which fixes /usr/lib/ruby/vendor_ruby/vagrant/bundler.rb.
-
 ```
+We have seen that Vagrant can also be used in AWS environment and will provide easier configuration management to our cloud environment. We can also apply the same method for other cloud providers.
+
 ## References ##
 
 [Vagrant's documentation site](https://www.vagrantup.com/docs/)
