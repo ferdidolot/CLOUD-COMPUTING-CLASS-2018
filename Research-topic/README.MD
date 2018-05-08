@@ -227,17 +227,17 @@ end
 ```
 
 There are several AWS parameters that are normally defined in Vagrantfile, such as:
-access_key_id:  Your AWS access key 
-secret_access_key: Your AWS access key 
-keypair_name: The name of the keypair to be used in AWS.
-ami: The AMI id to boot. We can find this information in AWS AMI section. 
-username: Your virtual machine/instance username, and also path to your private key
-security_group: list of AWS security group for running this instance. Information about security group can be found on https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html. 
-Instances_type: AWS instance type tier such as micro, macro, medium, etc. 
+* access_key_id:  Your AWS access key 
+* secret_access_key: Your AWS access key 
+* keypair_name: The name of the keypair to be used in AWS.
+* ami: The AMI id to boot. We can find this information in AWS AMI section. 
+* username: Your virtual machine/instance username, and also path to your private key
+* security_group: list of AWS security group for running this instance. Information about security group can be found on https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html. 
+* Instances_type: AWS instance type tier such as micro, macro, medium, etc. 
 
 Complete configuration can be seen on https://github.com/mitchellh/vagrant-aws. AWS vagrant plugin then pass this information to AWS, the same as we are opening AWS web console, and creates the VM accordingly to the information we set. 
 
-# Vagrant plugin installation issues #
+## Vagrant plugin installation issues ##
 
 **Trigger**: after executing command
 ```
