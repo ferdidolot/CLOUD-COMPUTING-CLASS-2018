@@ -32,7 +32,6 @@ To set up the environment in Ubuntu Linux Environment, using VirtualBox provider
 sudo apt-get install virtualbox
 sudo apt-get install vagrant
 ```
-
 ### Vagrant components ###
 
 Once we have a working environment, we can start using Vagrant. But before starting exploring it, it is reasonable to briefly introduce the main components of Vagrant: providers, Vagrantfile, boxes and plugins. We described providers shortly in the previous section.
@@ -171,6 +170,9 @@ config.vm.box = "precise64"
      config.vm.network "forwarded_port", guest:80, host:8080
 end
 ```
+Figure below shows setting up the development environment in our local machine
+
+![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Research-topic/vagrant-local-1.PNG)
 
 ### Provisioning using configuration management tool ###
 
@@ -193,6 +195,7 @@ end
 This way, we can put Ansible script on the same version control as Vagrant and run them together to provide powerful integration between each component. Vagrant can be used to specifically build architecture environment such as virtual machines and cloud instances, meanwhile Ansible can be used for provisioning tools.
 
 We can take benefit of Vagrant posistioning by choosing between basic one with shell script and provisioning with configuration management tools.
+
 
 ## Vagrant in cloud ##
 
@@ -244,6 +247,17 @@ There are several AWS parameters that are normally defined in Vagrantfile, such 
 * Instances_type: AWS instance type tier such as micro, macro, medium, etc. 
 
 Complete configuration can be seen on https://github.com/mitchellh/vagrant-aws. AWS Vagrant plugin then pass this information to AWS, the same as we are opening AWS web console, and creates the VM accordingly to the information we set. 
+
+
+The figures below shows setting up the development environment in our AWS 
+
+![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Research-topic/vagrant-aws-1.PNG)
+
+![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Research-topic/vagrant-aws-2.PNG)
+
+The figures below shows the EC2 web management console
+
+![alt text](https://github.com/ferdidolot/CLOUD-COMPUTING-CLASS-2018/blob/master/Research-topic/vagrant-aws-3.PNG)
 
 ### Vagrant plugin installation issues ###
 
