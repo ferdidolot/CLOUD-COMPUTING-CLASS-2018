@@ -2,9 +2,9 @@
 # Vagrant #
 ## Introduction to Vagrant ##
 
-Today\`s IT enterprise is always looking for the latest technology that allow businesses to run with fewer resources and to use them in efficient way while providing the infrastructure to meet customer needs. The growing awareness of the advantages provided by virtualization technology has turned it in one of the most important issue of the computing industry. However, working with virtual development environments require a lot of manual work and configurations and today's modern applications have a lot of moving parts, technologies to choose from and a lot more overall complexity. Hence, automation tools like Vagrant have gained quite wide popularity and have outclassed the traditional approaches.
+Today\`s IT enterprise is always looking for the latest technology that allow businesses to run with fewer resources and to use them in efficient way while providing the infrastructure to meet customer needs. The growing awareness of the advantages provided by virtualization technology has turned it in one of the most important issue of the computing industry. However, working with virtual development environments require a lot of manual work and configurations and today's modern applications have a lot of moving parts, technologies to choose from and a lot more overall complexity. Hence, **automation tools** like Vagrant have gained quite wide popularity and have outclassed the traditional approaches.
 
-Vagrant is a set of tools that attempts to make it easier to build and manage virtual machines through a simple and uniform command-line interface. Furthermore, Vagrant facilitates sharing and distributing virtual development environments between teams and people working on different platforms. Specifically, it helps to create and configure lightweight, reproducible and portable deployment environment.[1] It was originally authored by Mitchell Hashimoto and it is an open source software distributed under an MIT license. The source code of Vagrant is available at https://github.com/mitchellh/vagrant.
+Vagrant is a set of tools that attempts to make it easier to build and manage virtual machines through a simple and uniform command-line interface. Furthermore, Vagrant facilitates sharing and distributing virtual development environments between teams and people working on different platforms. Specifically, it helps to create and configure lightweight, reproducible and portable deployment environment. It was originally authored by Mitchell Hashimoto and it is an open source software distributed under an MIT license. The source code of Vagrant is available at https://github.com/mitchellh/vagrant.
 
 Apart from the virtualization solution, the programming language, the framework and the operating system used, Vagrant creates the complete deployment environment with just one simple command: $ vagrant up.  Vagrant is a Swiss Army knife for development environments. It automates all the necessary tasks to run the virtual development environment, from downloading, installing and booting the VM (it supports all major virtual solutions: VirtualBox, VMWare, and Hyper-V) to configuring various resources (RAM, CPUs, network connections and shared folders) and installing additional software within the VM by using software configuration tools such as Ansible, Chef, Puppet, and Salt.
 
@@ -285,7 +285,7 @@ which fixes /usr/lib/ruby/vendor_ruby/vagrant/bundler.rb.
 
 ```
 
-
+## To learn more ##
 
 
 
