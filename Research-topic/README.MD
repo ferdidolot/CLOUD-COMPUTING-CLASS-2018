@@ -17,7 +17,7 @@ In summary, as a layer on top of existing and well-known virtualization solution
 
 ## Configuring the development environment ##
 
-In this section we will go through the basic type of  environment with a single Vagrant virtual machine.
+In this section we will describe how to set up and initialize the development environment for a single Vagrant virtual machine. We will also briefly describe the main Vagrant components.
 
 ### Setting up the development environment ###
 
