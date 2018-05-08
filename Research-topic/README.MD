@@ -1,5 +1,6 @@
 
-# Introduction to Vagrant #
+# Vagrant #
+## Introduction to Vagrant ##
 
 Today\`s IT enterprise is always looking for the latest technology that allow businesses to run with fewer resources and to use them in efficient way while providing the infrastructure to meet customer needs. The growing awareness of the advantages provided by virtualization technology has turned it in one of the most important issue of the computing industry. However, working with virtual development environments require a lot of manual work and configurations and today's modern applications have a lot of moving parts, technologies to choose from and a lot more overall complexity. Hence, automation tools like Vagrant have gained quite wide popularity and have outclassed the traditional approaches.
 
@@ -14,11 +15,11 @@ In a world with Vagrant, although the application is executed in the developerâ€
 In summary, as a layer on top of existing and well-known virtualization solutions, Vagrant is a useful tool to manage the complexity of virtual machines. Although it is possible to achieve what Vagrant does with only plain desktop virtualization, there is a major downside of this approach: it would be completely manual. 
 
 
-# Configuring the development environment #
+## Configuring the development environment ##
 
 In this section we will go through the basic type of  environment with a single Vagrant virtual machine.
 
-## Setting up the development environment ##
+### Setting up the development environment ###
 
 Setting up a working environment is the most important step before using Vagrant. Despite the operating system that is used, to start exploring Vagrant it is needed to install a provider software and the Vagrant software itself.
 
@@ -32,7 +33,7 @@ sudo apt-get install virtualbox
 sudo apt-get install vagrant
 ```
 
-## Vagrant components ##
+### Vagrant components ###
 
 Once we have a working environment, we can start using Vagrant. But before starting exploring it, it is reasonable to briefly introduce the main components of Vagrant: providers, Vagrantfile, boxes and plugin. We described providers shortly in the previous section.
 
@@ -68,7 +69,7 @@ vagrant plugin install /path/to/my-plugin.gem
 
 This elasticity allows vagrant to adapt with current trends in software development automation process easily. We will discuss more about cloud service provider plugin, specifically for Amazon Web Services (AWS) in the next section to see the actual implementation of having vagrant on the cloud.
 
-## Initializing the development environment ##
+### Initializing the development environment ###
 
 Running vagrant is quite simple. First, by using vagrant version command, we can verify that Vagrant is successfully installed and can continue with initializing the development environment and interacting with it. In Ubuntu Linux Environment, the following commands should be executed:
 
@@ -110,9 +111,9 @@ End
 
 To sum up, Vagrant has a very simple workflow. By just using vagrant up, vagrant ssh, vagrant destroy, users can simply manage their development environments. Moreover, even though the syntax of Vagrantfile is in Ruby, no Ruby-specific knowledge is necessary since the Vagrantfile is composed only of variable assignment, function calls and configuration blocks. In addition,  shared folders and forwarded ports enables developers to continue using the development tools they are more comfortable and efficient with.
 
-# Provisioning Vagrant environment #
+## Provisioning Vagrant environment ##
 
-## Basic provisioning with Vagrant using shell scripts ##
+### Basic provisioning with Vagrant using shell scripts ###
 
 In order for a developer to have a complete development environment, all the necessary software for the project being developed must be installed on the virtual machine. Vagrants enables automatic installation of the software as part as the development environment creation process.  The real power of Vagrant is not only speeding up the creation of development environments from a Vagrantfile, but also provisioning these environments in a repeatable way. Provisioner is a term that is used to refer to different methods that Vagrant use to install and configure software. Vagrant supports automated provisioning, ensuring in this way environment stability and saving time by automating this process through shell scripts and configuration management.  
 
@@ -171,7 +172,7 @@ config.vm.box = "precise64"
 end
 ```
 
-## Provisioning using configuration management tool ##
+### Provisioning using configuration management tool ###
 
 In  the previous section, we have seen that Vagrant can take benefit of basic provisioning that is mostly part of the operating system, such as shell command. Going over shell command can somehow be very complicated since we have to create a proper scripting and programming to ensure everything works perfectly. We also have to maintain our script (doing proper test of the configuration script itself) in the case of project expansion and change of deployment process. 
 
@@ -191,10 +192,10 @@ end
 This way, we can put ansible script on the same version control as vagrant and run them together to provide powerful integration between each component. Vagrant can be used to specifically build architecture environment such as virtual machines and cloud instances, meanwhile ansible can be used for provisioning tools.
 
 
-# Vagrant in cloud #
+## Vagrant in cloud ##
 Vagrant can be used with cloud providers to automatically manage architecture and configuration in cloud. This flexibility can be achieved by developing plugin in vagrant for the cloud provider. One of the most popular cloud provider that support this capability is Amazon Web Services (AWS). In this section, we will be focusing on how we can make use of Vagrant in AWS cloud service environment. It is important to highlight that in this report, we will not be covering the basic configuration of AWS instance. We are assuming that the reader is familiar with AWS configuration and terminology hence it is advised for the reader to explore about AWS feature and console in order to proceed in this section. Some useful information regarding AWS can be found on https://aws.amazon.com/getting-started/. 
 
-## Vagrant in AWS ##
+### Vagrant in AWS ###
 
 From previous section, we already saw an example of vagrant managing virtual environment using virtualbox, while in AWS cloud, vagrant will be managing virtual machines as instances running in AWS. Vagrant will provide easy access to AWS instances creation and termination, as well as AWS instances provisioning and configuration. 
 
@@ -237,7 +238,7 @@ There are several AWS parameters that are normally defined in Vagrantfile, such 
 
 Complete configuration can be seen on https://github.com/mitchellh/vagrant-aws. AWS vagrant plugin then pass this information to AWS, the same as we are opening AWS web console, and creates the VM accordingly to the information we set. 
 
-## Vagrant plugin installation issues ##
+### Vagrant plugin installation issues ###
 
 **Trigger**: after executing command
 ```
