@@ -239,18 +239,17 @@ Complete configuration can be seen on https://github.com/mitchellh/vagrant-aws. 
 
 # Vagrant plugin installation issues #
 
-**Trigger**
-After executing command
-
-vagrant plugin install vagrant-aws
-
-**Error message**
-/usr/lib/ruby/2.3.0/rubygems/specification.rb:946:in `all=': undefined method `group_by' for nil:NilClass (NoMethodError)
-
-
-**Fix**
-Create file vagrant-plugin.patch with the following contents:
+**Trigger**: after executing command
 ```
+vagrant plugin install vagrant-aws
+```
+
+**Error message** :/usr/lib/ruby/2.3.0/rubygems/specification.rb:946:in \`all=': undefined method \`group_by\' for nil:NilClass (NoMethodError)
+
+
+**Fix**: create file vagrant-plugin.patch with the following contents:
+```
+---
  lib/vagrant/bundler.rb | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
@@ -276,7 +275,7 @@ index 5a5c185..c4a3837 100644
    	Gem::DefaultUserInteraction.use_ui(Gem::SilentUI.new) do
  	return yield
   ```
-Apply patch
+**Apply patch**
 
 ```
 sudo patch --directory /usr/lib/ruby/vendor_ruby/vagrant < vagrant-plugin.patch
