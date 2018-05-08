@@ -291,8 +291,25 @@ sudo patch --directory /usr/lib/ruby/vendor_ruby/vagrant < vagrant-plugin.patch
 which fixes /usr/lib/ruby/vendor_ruby/vagrant/bundler.rb.
 
 ```
+## References ##
+
+[Vagrant's documentation site](https://www.vagrantup.com/docs/)
+
+[Vagrant community](https://www.vagrantup.com/community.html)
+
+[Vagrant Virtual Development Environment Cookbook](http://1.droppdf.com/files/n9TVZ/vagrant-virtual-development-environment-cookbook-by-chad-thompson.pdf)
+
+[Vagrant: Up and Running](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=0ahUKEwiX9eiPmfbaAhUmh6YKHUCSA18QFggoMAA&url=https%3A%2F%2Fisidore.co%2Fcalibre%2Fget%2Fpdf%2F5829&usg=AOvVaw23jSL6pU_Ik2iGUIhTphlf)
+
+[Pro-Vagrant](http://pepa.holla.cz/wp-content/uploads/2016/10/Pro-Vagrant.pdf)
 
 ## To learn more ##
 
+[Running multiple instances on AWS](http://blog.wimwauters.com/vagrant-aws-launch-multiple-instances/)
 
+[Vagrant in google cloud environment](https://github.com/mitchellh/vagrant-google) 
+
+[Vagrant AWS Lambda](https://mblum.me/2016/07/deploying-aws-lambda-functions/)
+
+[Vagrant plugin development](https://www.slideshare.net/ru_Parallels/vagrant-plugin-development)
 
