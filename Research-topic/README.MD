@@ -17,7 +17,7 @@ In summary, as a layer on top of existing and well-known virtualization solution
 
 ## Configuring the development environment ##
 
-In this section we will describe how to set up and initialize the development environment for a single Vagrant virtual machine. We will also briefly describe the main Vagrant components.
+In this section we will describe how to set up and initialize the development environment for a single Vagrant virtual machine. We will also briefly explain the main Vagrant components.
 
 ### Setting up the development environment ###
 
@@ -111,17 +111,17 @@ To sum up, Vagrant has a very simple workflow. By just using `vagrant up`, `vagr
 
 ## Provisioning Vagrant environment ##
 
+In order for a developer to have a complete development environment, all the necessary software for the project being developed must be installed on the virtual machine. Vagrants enables automatic installation of the software as part as the development environment creation process.  The real power of Vagrant is not only speeding up the creation of development environments from a Vagrantfile, but also provisioning these environments in a repeatable way. Provisioner is a term that is used to refer to different methods that Vagrant use to install and configure software. Vagrant supports automated provisioning, ensuring in this way environment stability and saving time by automating this process through shell scripts and configuration management.  
 
+Using automated provisioning offered by Vagrant, a set of problems related with setting up development environments manually can be avoided. In practice, when a new server must be configured even the same configuration guides are followed (giant Readme files with steps for each platform), the server might end up slightly different and these differences can lead to a lot of issues and to developers claiming “but it worked on my machine”. Automated provisioning ensures development environments to be identically configured and have identically installed softwares. The more team members use Vagrant, the more quickly these benefits are realized. 
+
+In this section we will go through Vagrant provisioning, using both shell scripts and configuration management tools.
 
 ### Basic provisioning with Vagrant using shell scripts ###
 
-In order for a developer to have a complete development environment, all the necessary software for the project being developed must be installed on the virtual machine. Vagrants enables automatic installation of the software as part as the development environment creation process.  The real power of Vagrant is not only speeding up the creation of development environments from a Vagrantfile, but also provisioning these environments in a repeatable way. Provisioner is a term that is used to refer to different methods that Vagrant use to install and configure software. Vagrant supports automated provisioning, ensuring in this way environment stability and saving time by automating this process through shell scripts and configuration management.  
-
-Using automated provisioning offered by Vagrant a set of problems related with setting up development environments manually can be avoided. In practice, when a new server must be configured even the same configuration guides are followed (giant Readme files with steps for each platform), the server might end up slightly different and these differences can lead to a lot of issues and to developers claiming “but it worked on my machine”. Automated provisioning ensures development environments to be identically configured and have identically installed softwares. The more team members use Vagrant, the more quickly these benefits are realized. 
-
 The basic method of provisioning is to use shell commands and run them in the Vagrant machine. Depending on the complexity of the task the user can choose between running simple shell commands, executing shell scripts in a Vagrantfile and provisioning with external shell script. 
 
-For very basic provisioning (e.g. displaying a message to users on login), the user can directly add a command to be executed using the provisioning command in Vagrantfile, which will take two arguments: the type of provisioner being executed (in this case shell) and the command to be executed by the shell with the inline argument. After the environment is started with vagrant up command and after the virtual environment is accessed using the vagrant ssh command, the message will be displayed for the user.  Furthermore, by using vagrant provision command, Vagrant allows provisioners to be executed multiple times on an environment.
+For very basic provisioning (e.g. displaying a message to users on login), the user can directly add a command to be executed using the provisioning command in Vagrantfile, which will take two arguments: the type of provisioner being executed (in this case shell) and the command to be executed by the shell with the inline argument. After the environment is started with `vagrant up` command and after the virtual environment is accessed using the `vagrant ssh` command, the message will be displayed for the user.  Furthermore, by using vagrant provision command, Vagrant allows provisioners to be executed multiple times on an environment.
 
 ```
 # -*- mode: ruby -*-
@@ -134,7 +134,7 @@ Vagrant.configure(2) do |config|
 End
 ```
 
-To deal with more complicated tasks, instead of using single inline string arguments, the users can define shell scripts (set of commands) in the Vagrantfile, using the multiline string feature of Ruby. E.g. provisioning a new Vagrant environment, by installing nginx web server and replacing the default web directory.  In this example we can see that Vagrant can also be used to extend the utility of local computing environments, for instance enabling a virtual machine to listen on local ports through port forwarding. After modifying the Vagrantfile as shown below, we can open the browser and visit http://localhost:8080 in the host machine and access the newly installed web server.
+To deal with more complicated tasks, instead of using single inline string arguments, the users can define shell scripts (set of commands) in the Vagrantfile, using the multiline string feature of Ruby. E.g. provisioning a new Vagrant environment, by installing *nginx web server* and replacing the default web directory.  In this example we can see that Vagrant can also be used to extend the utility of local computing environments, for instance enabling a virtual machine to listen on local ports through port forwarding. After modifying the Vagrantfile as shown below, we can open the browser and visit http://localhost:8080 in the host machine and access the newly installed web server.
 
 ```
 # -*- mode: ruby -*-
@@ -159,7 +159,7 @@ config.vm.network "forwarded_port", guest:80, host:8080
 end
 ```
 
-In the case when provisioning operations are large and very complex, it is recommended to create and maintain them separately from the Vagrantfile. In this case we need to configure vagrant to use the script, by using config.vm.provision directive. For the same example as above, in this case the content of Vagrantfile will be:
+In the case when provisioning operations are large and very complex, it is recommended to create and maintain them separately from the Vagrantfile. In this case we need to configure vagrant to use the script, by using `config.vm.provision` directive. For the same example as above, in this case the content of Vagrantfile will be:
 
 ```
 # -*- mode: ruby -*-
@@ -176,11 +176,12 @@ end
 
 In  the previous section, we have seen that Vagrant can take benefit of basic provisioning that is mostly part of the operating system, such as shell command. Going over shell command can somehow be very complicated since we have to create a proper scripting and programming to ensure everything works perfectly. We also have to maintain our script (doing proper test of the configuration script itself) in the case of project expansion and change of deployment process. 
 
-Additionally, configuration management tool, however, provides simplicity on doing machine configuration task. By using it, we can minimize our effort of doing proper shell scripting and programming, and use well developed tool to provision our machine better. There are a lot of available configuration management tool among which the most popular are: Puppet, Chef, Salt and Ansible. This flexibility of vagrant makes this tool easily to adjust with automation growth in software industry.
+Additionally, configuration management tool, however, provides simplicity on doing machine configuration task. By using it, we can minimize our effort of doing proper shell scripting and programming, and use well developed tool to provision our machine better. There are a lot of available configuration management tool among which the most popular are: Puppet, Chef, Salt and Ansible. This flexibility of Vagrant makes this tool easily to adjust with automation growth in software industry.
 
-To give one example, we will shortly see one example on how to integrate Vagrant with Ansible. Firstly, user should have ansible installed on the vagrant host machine. This is a very basic requirement since vagrant need to run ansible inside of the Vagrantfile. In this section, we will not talk about details for ansible installation, but it can be found at http://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html. 
+To illustrate this, we will shortly see one example on how to integrate Vagrant with Ansible. Firstly, user should have Ansible installed on the Vagrant host machine. This is a very basic requirement since Vagrant need to run Ansible inside of the Vagrantfile. In this section, we will not talk about details for Ansible installation, but it can be found at http://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html. 
 
-Secondly, user need to define associated ansible playbook provisioning script inside of Vagrantfile. Example is shown below:
+Secondly, user needs to define associated Ansible playbook provisioning script inside of Vagrantfile. Example is shown below:
+
 ```
 Vagrant.configure("2") do |config|
   config.vm.provision "ansible" do |ansible|
@@ -189,25 +190,31 @@ Vagrant.configure("2") do |config|
 end
 ```
 
-This way, we can put ansible script on the same version control as vagrant and run them together to provide powerful integration between each component. Vagrant can be used to specifically build architecture environment such as virtual machines and cloud instances, meanwhile ansible can be used for provisioning tools.
+This way, we can put Ansible script on the same version control as Vagrant and run them together to provide powerful integration between each component. Vagrant can be used to specifically build architecture environment such as virtual machines and cloud instances, meanwhile Ansible can be used for provisioning tools.
 
+We can take benefit of Vagrant posistioning by choosing between basic one with shell script and provisioning with configuration management tools.
 
 ## Vagrant in cloud ##
-Vagrant can be used with cloud providers to automatically manage architecture and configuration in cloud. This flexibility can be achieved by developing plugin in vagrant for the cloud provider. One of the most popular cloud provider that support this capability is Amazon Web Services (AWS). In this section, we will be focusing on how we can make use of Vagrant in AWS cloud service environment. It is important to highlight that in this report, we will not be covering the basic configuration of AWS instance. We are assuming that the reader is familiar with AWS configuration and terminology hence it is advised for the reader to explore about AWS feature and console in order to proceed in this section. Some useful information regarding AWS can be found on https://aws.amazon.com/getting-started/. 
+
+Vagrant can be used with cloud providers to automatically manage architecture and configuration in cloud. This flexibility can be achieved by developing plugin in Vagrant for the cloud provider. One of the most popular cloud provider that support this capability is Amazon Web Services (AWS) and some other cloud providers are: AWS, Azure, Google, Hp, Digitalocean, Cloudstack. 
+
+In this section, we will be focusing on how we can make use of Vagrant in AWS cloud service environment. It is important to highlight that in this report, we will not be covering the basic configuration of AWS instance. We are assuming that the reader is familiar with AWS configuration and terminology hence it is advised for the reader to explore about AWS feature and console in order to proceed in this section. Some useful information regarding AWS can be found on https://aws.amazon.com/getting-started/. 
 
 ### Vagrant in AWS ###
 
-From previous section, we already saw an example of vagrant managing virtual environment using virtualbox, while in AWS cloud, vagrant will be managing virtual machines as instances running in AWS. Vagrant will provide easy access to AWS instances creation and termination, as well as AWS instances provisioning and configuration. 
+From previous section, we already saw an example of Vagrant managing virtual environment using virtualbox, while in AWS cloud,Vagrant will be managing virtual machines as instances running in AWS. Vagrant will provide easy access to AWS instances creation and termination, as well as AWS instances provisioning and configuration. 
 
 First, we will need to add dummy box to be installed for AWS by running this command: 
-
+```
 vagrant box add <box-name> https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box
+```
 
-In order to be able to use AWS in vagrant, it is necessary to install aws plugin in vagrant. To install AWS plugin, simply run
-
+In order to be able to use AWS in Vagrant, it is necessary to install AWS plugin in Vagrant. To install AWS plugin, simply run
+```
 vagrant plugin install vagrant-aws
+```
 
-During our experiment, we had difficulties when installing vagrant on Ubuntu 16.04 environment. The reader is advised to go to Appendix section to see vagrant plugin installation issue and how to fix it.
+During our experiment, we had difficulties when installing Vagrant on Ubuntu 16.04 environment. The reader is advised to go to `Vagrant plugin installation issues` section to see Vagrant plugin installation issue and how to fix it.
 
 The next step is to create Vagrantfile containing information about AWS instances. Example of Vagrantfile can be seen as follow: 
 ```
@@ -236,7 +243,7 @@ There are several AWS parameters that are normally defined in Vagrantfile, such 
 * security_group: list of AWS security group for running this instance. Information about security group can be found on https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html. 
 * Instances_type: AWS instance type tier such as micro, macro, medium, etc. 
 
-Complete configuration can be seen on https://github.com/mitchellh/vagrant-aws. AWS vagrant plugin then pass this information to AWS, the same as we are opening AWS web console, and creates the VM accordingly to the information we set. 
+Complete configuration can be seen on https://github.com/mitchellh/vagrant-aws. AWS Vagrant plugin then pass this information to AWS, the same as we are opening AWS web console, and creates the VM accordingly to the information we set. 
 
 ### Vagrant plugin installation issues ###
 
